@@ -1,0 +1,13 @@
+{
+    "python.pythonPath": "/home/madelinkind/.virtualenvs/preprocessing_spacy/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.analysis.extraPaths": [
+        "./orm"
+    ],
+
+    "python.linting.pylintArgs": [
+        "--errors-only",
+        "--generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
+        ]
+}

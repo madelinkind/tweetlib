@@ -1,0 +1,1 @@
+from .postagging import postagging_encoding
