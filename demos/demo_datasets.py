@@ -2325,7 +2325,8 @@ def save_(list_count_tweets_x_user_to_download):
                 X = tuple_data[0]
                 y = tuple_data[1]
                 dictionary_X_y = {'X': X, 'y': y}
-                dump(dictionary_X_y, f'BERT_DATA_SET/{method.__name__}_{count_tweets}')
+                dump(dictionary_X_y, f'BERT_DATA_SET/{count_tweets}/{method.__name__}')
+                
                 if config.tagging_method != None:
                     list_library.append(config.tagging_method.name)
                 else:
