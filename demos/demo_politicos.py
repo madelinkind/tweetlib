@@ -35,7 +35,7 @@ config = Configuration([
     EncodingMethod.POSTAGGING,
     # EncodingMethod.BIGRAM, 
     # ClassificationMethod.LOGISTIC_REGRESSION
-    ClassificationMethod.LOGISTIC_REGRESSION,
+    ClassificationMethod.SVM,
     TaggingMethod.SPACY,
     type_dataset = TypeDataSet.politico
 )

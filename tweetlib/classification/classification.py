@@ -97,7 +97,7 @@ class Classification(object):
         print(f"Accuracy Mean: {accuracy_mean}")
         print(f"Recall Mean: {recall_mean}")
         print(f"F1 Mean: {f1_mean}")
-        return accuracy, recall, f1, len_labels, len_sentences
+        return accuracy_mean, recall_mean, f1_mean, len_labels, len_sentences
 
         #Validate
     @staticmethod
@@ -109,7 +109,7 @@ class Classification(object):
             y ([type]): [description]
             method (ClassificationMethod): [description]
         """
-        print("Comenzamos validación...")
+        print("Comenzando validación...")
         accuracy=[]
         recall = []
         f1 = []
@@ -128,7 +128,7 @@ class Classification(object):
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
             #ejecutamos el modelo
-            print("Ejecutamos el modelo")
+            print("Ejecutando el modelo...")
             model = Classification.run_model_balanced(X_train, y_train, method)
 
             # se realiza las predicciones en los datos de prueba usando predict()
@@ -168,6 +168,8 @@ class Classification(object):
             # plt.xlabel('Predicted class')
             # plt.show()
             print (classification_report(y_test, pred_y))
+            # print(y_test)
+            # print(pred_y)
         # print(f"Accuracy: {accuracy}")
         # print(f"ACC: {ACC}")
         # print(f"RECALL: {recall}")
@@ -187,6 +189,9 @@ class Classification(object):
         print(f"Accuracy Mean: {accuracy_mean}")
         print(f"Recall Mean: {recall_mean}")
         print(f"F1 Mean: {f1_mean}")
+
+        print("Validación finalizada!")
+
         # return accuracy_mean, len(list(set(y))), len(X)
         return accuracy_mean, recall_mean, f1_mean, len(list(set(y))), len(X)
     
@@ -294,10 +299,10 @@ class Classification(object):
 
         if validate != None:
 
-            # Create a 90-10 train-validation split.
+            # Create a 80-20 train-validation split.
 
             # Calculate the number of samples to include in each set.
-            train_size = int(0.9 * len(dataset))
+            train_size = int(0.8 * len(dataset))
             val_size = len(dataset) - train_size
 
             # Divide the dataset by randomly selecting samples.
@@ -483,6 +488,11 @@ class Classification(object):
         device = Classification.cpu_or_gpu_availability()
 
         accuracy = 0 
+        recall = 0
+        f1 = 0
+
+        y_preds = []
+        y_tests = []
 
         # We'll store a number of quantities such as training and validation loss, 
         # validation accuracy, and timings.
@@ -545,9 +555,13 @@ class Classification(object):
             # Move logits and labels to CPU
             logits = logits.detach().cpu().numpy()
             label_ids = b_labels.to('cpu').numpy()
-            # preds.append(logits)
-            # labels.append(label_ids)
-            
+
+            if epoch_i == 0:
+                y_pred = np.argmax(logits, axis=1).flatten()
+                y_test = label_ids.flatten()
+                y_preds.append(y_pred)
+                y_tests.append(y_test)
+
             # Calculate the accuracy for this batch of test sentences, and
             # accumulate it over all batches.
             total_eval_accuracy += Classification.flat_accuracy(logits, label_ids)
@@ -555,14 +569,6 @@ class Classification(object):
         # Report the final accuracy for this validation run.
         avg_val_accuracy = total_eval_accuracy / len(validation_dataloader)
         print("  Accuracy: {0:.2f}".format(avg_val_accuracy))
-        if epoch_i == 0:
-            accuracy = avg_val_accuracy
-            y_pred = np.argmax(logits, axis=1).flatten()
-            y_test = label_ids.flatten()
-            _, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average='micro')
-            print(f'El recall es: {recall}')
-            print(f'El f1 es: {f1}')
-            print(classification_report(y_test, y_pred, labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
         # Calculate the average loss over all of the batches.
         avg_val_loss = total_eval_loss / len(validation_dataloader)
@@ -572,6 +578,15 @@ class Classification(object):
 
         print("  Validation Loss: {0:.2f}".format(avg_val_loss))
         print("  Validation took: {:}".format(validation_time))
+
+        if epoch_i == 0:
+            accuracy = avg_val_accuracy
+            y_pred = np.argmax(logits, axis=1).flatten()
+            y_test = label_ids.flatten()
+            _, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average='micro')
+            print(f'El recall es: {recall}')
+            print(f'El f1 es: {f1}')
+            print(classification_report(y_test, y_pred, labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
         # Record all statistics from this epoch.
         training_stats.append(
@@ -584,8 +599,10 @@ class Classification(object):
                 'Validation Time': validation_time
             }
         )
+
         print("Validation complete!")
         print("Total training took {:} (h:mm:ss)".format(Classification.format_time(time.time()-total_t0)))
+
         return accuracy, recall, f1
     
     #Model

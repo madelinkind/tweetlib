@@ -85,7 +85,8 @@ def freq_dict(data_texts: list, tagging_method, nlp):
             freq_dict = Counter([word.upos for word in sentence])
             vector = vector_freq(freq_dict, vector_new_tags)
             vectors.append(vector)
-    else: raise Exception("You must enter a valid tagging method, See TaggingMethod.")
+    else: 
+        raise Exception("You must enter a valid tagging method, See TaggingMethod.")
     return vectors
 
 #Preprocesar texto para obtener la frecuencia de las nuevas etiquetas en dicho texto. 

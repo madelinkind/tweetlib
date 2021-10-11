@@ -3,14 +3,15 @@
 def rm_mentions(text: list):
     # MENT = 0
     within_ment = []
-    if type(text) == str:
-        text = text.split(" ")
-    for word in text:
-        if word != '':
-            if word[0] == '@':
+    if text != None and text != []:
+        if type(text) == str:
+            text = text.split(" ")
+        for word in text:
+            if word != '':
+                if word[0] != '@':
+                    within_ment.append(word)
+            else:
                 within_ment.append(word)
-        else:
-            within_ment.append(word)
         
     # within_ment = [word for word in text if word != '' and not '@' in word[0]]
         # if '@' in t[0]:
@@ -19,8 +20,7 @@ def rm_mentions(text: list):
     return within_ment
 
 def count_mentions(text: list):
-    # tx = text.split()
-    # list_mentions = []
+
     if type(text) == str:
         text = text.split(" ")
         # for word in text:

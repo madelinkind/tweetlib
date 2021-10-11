@@ -44,12 +44,10 @@ def politic_bert_within_prep(count_tweets):
     )
 
     data_set = DataSetPoliticos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -77,12 +75,10 @@ def politic_bert_spacy_token(count_tweets):
     )
 
     data_set = DataSetPoliticos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 #-----------------------------------------------------------------------------------------
 # 1. Config:
         #Preprocessing: TOKENIZE, REMOVE_STOP_WORDS, LOWERCASE, LEMMATIZE
@@ -110,12 +106,10 @@ def politic_bert_token_stopword_lowercase_lemma(count_tweets):
     )
 
     data_set = DataSetPoliticos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 #-----------------------------------------------------------------------------------------
 # 1. Config:
         #Preprocessing: REMOVE_ALPHA_NUMERIC
@@ -140,12 +134,10 @@ def politic_bert_rm_alphanumeric(count_tweets):
     )
 
     data_set = DataSetPoliticos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 #-----------------------------------------------------------------------------------------
 # 1. Config:
         #Preprocessing: EMOTICONS, LINKS, NUM, PUNCT
@@ -173,12 +165,10 @@ def politic_bert_emoji_link_num_punct(count_tweets):
     )
 
     data_set = DataSetPoliticos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #--------------------------------------PREPROSSESING - BERT--------------------------------
 ###########################################################################################
@@ -207,12 +197,10 @@ def artist_bert_within_prep(count_tweets):
     )
 
     data_set = DataSetArtistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -241,12 +229,10 @@ def artist_bert_spacy_token(count_tweets):
     )
 
     data_set = DataSetArtistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -275,12 +261,10 @@ def artist_bert_token_stopword_lowercase_lemma(count_tweets):
     )
 
     data_set = DataSetArtistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -306,12 +290,10 @@ def artist_bert_rm_alphanumeric(count_tweets):
     )
 
     data_set = DataSetArtistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -340,12 +322,10 @@ def artist_bert_emoji_link_num_punct(count_tweets):
     )
 
     data_set = DataSetArtistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 
 #--------------------------------------PREPROSSESING - BERT---------------------------------------
@@ -375,12 +355,10 @@ def athlete_bert_within_prep(count_tweets):
     )
 
     data_set = DataSetDeportistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -409,12 +387,10 @@ def athlete_bert_spacy_token(count_tweets):
     )
 
     data_set = DataSetDeportistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -443,12 +419,10 @@ def athlete_bert_token_stopword_lowercase_lemma(count_tweets):
     )
 
     data_set = DataSetDeportistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -474,12 +448,10 @@ def athlete_bert_rm_alphanumeric(count_tweets):
     )
 
     data_set = DataSetDeportistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -508,12 +480,10 @@ def athlete_bert_emoji_link_num_punct(count_tweets):
     )
 
     data_set = DataSetDeportistas(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 
 #-------------------------------------PREPROSSESING - BERT----------------------------------------
@@ -543,12 +513,10 @@ def youtuber_bert_within_prep(count_tweets):
     )
 
     data_set = DataSetYoutubers(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -577,12 +545,10 @@ def youtuber_bert_spacy_token(count_tweets):
     )
 
     data_set = DataSetYoutubers(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -611,12 +577,10 @@ def youtuber_bert_token_stopword_lowercase_lemma(count_tweets):
     )
 
     data_set = DataSetYoutubers(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -642,12 +606,10 @@ def youtuber_bert_rm_alphanumeric(count_tweets):
     )
 
     data_set = DataSetYoutubers(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -676,12 +638,10 @@ def youtuber_bert_emoji_link_num_punct(count_tweets):
     )
 
     data_set = DataSetYoutubers(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #--------------------------------------PREPROSSESING - BERT---------------------------------------
 ###########################################################################################
@@ -709,12 +669,10 @@ def all_bert_within_prep(count_tweets):
     )
 
     data_set = DataSetTodos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -742,12 +700,10 @@ def all_bert_spacy_token(count_tweets):
     )
 
     data_set = DataSetTodos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -775,12 +731,10 @@ def all_bert_token_stopword_lowercase_lemma(count_tweets):
     )
 
     data_set = DataSetTodos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -805,12 +759,10 @@ def all_bert_rm_alphanumeric(count_tweets):
     )
 
     data_set = DataSetTodos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 
 #-----------------------------------------------------------------------------------------
 # 1. Config:
@@ -838,10 +790,8 @@ def all_bert_emoji_link_num_punct(count_tweets):
     )
 
     data_set = DataSetTodos(count_tweets)
-    X = data_set.get_data()
-    y = data_set.get_y()
 
-    data = X, y
+    pipeline = TwitterPipeline(config, dataset=data_set)
 
-    return  data, config
+    return  pipeline.run(), config
 

@@ -23,12 +23,11 @@ from demos.bert_preproc_test import *
 from inspect import signature
 
 import pandas as pd
-import numpy as np
-import logging
+df = pd.DataFrame()
 
-# list_count_tweets_x_user_to_download = [50, 100, 200, 500, 1000]
-list_count_tweets_x_user_to_download = [50, 100, 200, 500]
 
+# list_count_tweets_x_user_to_download = [100, 200, 500, 1000]
+list_count_tweets_x_user_to_download = [50, 100, 200, 500, 1000]
 
 # list_count_tweets_x_user_to_download = [50]
 
@@ -2228,49 +2227,70 @@ def all_big_rl_spacy_token(count_tweets):
     pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
     return pipeline.run(), config
 
+# pipeline = TwitterPipeline(data_set, classifier, type_task, model = dict_config_model['model'], config = dict_config_model['config'], text = ['@pepe esta informando sobre covid'])
+
+# pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
 
 def save_(list_count_tweets_x_user_to_download):
 
-    #DataFrame
-    df = pd.DataFrame(columns=['total_classes', 'total_sentences', 'count_tweets_x_user', 
-                           'dataset', 'preprocessing', 'encoding', 'classifier', 
-                           'library', 'accuracy', 'recall', 'f1'])
+    list_dataset = []
+    list_prep = []
+    list_encoding = []
+    list_library = []
+    list_classifier = []
+    list_total_classes = []
+    list_total_sentences = []
+    list_count_tweets_x_user = []
+    list_accuracy = []
+    list_f1 = []
+    list_recall = []
 
-    cont = 0
-    list_method = [politic_pos_svm_spacy_within_prep, politic_pos_svm_spacy_token,
-    politic_pos_svm_token_stopword_lowercase_lemma, politic_pos_svm_rm_alphanumeric,
-    politic_pos_svm_emoji_link_num_punct, artist_pos_svm_spacy_within_prep,
-    artist_pos_svm_spacy_token, artist_pos_svm_token_stopword_lowercase_lemma,
-    artist_pos_svm_rm_alphanumeric, artist_pos_svm_emoji_link_num_punct, 
-    athlete_pos_svm_spacy_within_prep, athlete_pos_svm_spacy_token, 
-    athlete_pos_svm_token_stopword_lowercase_lemma,
-    athlete_pos_svm_rm_alphanumeric, athlete_pos_svm_emoji_link_num_punct, 
-    youtuber_pos_svm_spacy_within_prep, youtuber_pos_svm_spacy_token,
-    youtuber_pos_svm_token_stopword_lowercase_lemma, youtuber_pos_svm_rm_alphanumeric,
-    youtuber_pos_svm_emoji_link_num_punct, all_pos_svm_spacy_within_prep,
-    all_pos_svm_spacy_token, all_pos_svm_token_stopword_lowercase_lemma,
-    all_pos_svm_rm_alphanumeric, all_pos_svm_emoji_link_num_punct, politic_big_svm_spacy_within_prep,
-    politic_big_svm_spacy_token, politic_big_svm_token_stopword_lowercase_lemma,
-    politic_big_svm_rm_alphanumeric, politic_big_svm_emoji_link_num_punct,
-    artist_big_svm_spacy_within_prep, artist_big_svm_spacy_token,
-    artist_big_svm_token_stopword_lowercase_lemma, artist_big_svm_rm_alphanumeric,
-    artist_big_svm_emoji_link_num_punct, athlete_big_svm_spacy_within_prep,
-    athlete_big_svm_spacy_token, athlete_big_svm_token_stopword_lowercase_lemma,
-    athlete_big_svm_rm_alphanumeric, athlete_big_svm_emoji_link_num_punct,
-    youtuber_big_svm_spacy_within_prep, youtuber_big_svm_spacy_token,
-    youtuber_big_svm_token_stopword_lowercase_lemma, youtuber_big_svm_rm_alphanumeric,
-    youtuber_big_svm_emoji_link_num_punct, all_big_svm_spacy_within_prep,
-    all_big_svm_spacy_token, all_big_svm_token_stopword_lowercase_lemma,
-    all_big_svm_rm_alphanumeric, all_big_svm_emoji_link_num_punct,
-    politic_pos_svm_stanza_token, artist_pos_svm_stanza_token, athlete_pos_svm_stanza_token, 
-    youtuber_pos_svm_stanza_token, all_pos_svm_stanza_token,
-    politic_pos_bayes_spacy_token, artist_pos_bayes_spacy_token,
-    athlete_pos_bayes_spacy_token, youtuber_pos_bayes_spacy_token, all_pos_bayes_spacy_token,
-    politic_big_bayes_spacy_token, artist_big_bayes_spacy_token, athlete_big_bayes_spacy_token,
-    youtuber_big_bayes_spacy_token, all_big_bayes_spacy_token, politic_pos_rl_spacy_token, 
-    artist_pos_rl_spacy_token, athlete_pos_rl_spacy_token, youtuber_pos_rl_spacy_token,
-    all_pos_rl_spacy_token, politic_big_rl_spacy_token, artist_big_rl_spacy_token, 
-    athlete_big_rl_spacy_token, youtuber_big_rl_spacy_token, all_big_rl_spacy_token
+    list_method = [politic_bert_within_prep, politic_bert_spacy_token, politic_bert_token_stopword_lowercase_lemma,
+    politic_bert_rm_alphanumeric, politic_bert_emoji_link_num_punct, artist_bert_within_prep,
+    artist_bert_spacy_token, artist_bert_token_stopword_lowercase_lemma, artist_bert_rm_alphanumeric,
+    artist_bert_emoji_link_num_punct, athlete_bert_within_prep, athlete_bert_spacy_token,
+    athlete_bert_token_stopword_lowercase_lemma, athlete_bert_rm_alphanumeric,
+    athlete_bert_emoji_link_num_punct, youtuber_bert_within_prep,
+    youtuber_bert_spacy_token, youtuber_bert_token_stopword_lowercase_lemma,
+    youtuber_bert_rm_alphanumeric, youtuber_bert_emoji_link_num_punct,
+    all_bert_within_prep, all_bert_spacy_token, all_bert_token_stopword_lowercase_lemma,
+    all_bert_rm_alphanumeric, all_bert_emoji_link_num_punct
+    ]
+    
+    # list_method = [politic_pos_svm_spacy_within_prep, politic_pos_svm_spacy_token,
+    # politic_pos_svm_token_stopword_lowercase_lemma, politic_pos_svm_rm_alphanumeric,
+    # politic_pos_svm_emoji_link_num_punct, artist_pos_svm_spacy_within_prep,
+    # artist_pos_svm_spacy_token, artist_pos_svm_token_stopword_lowercase_lemma,
+    # artist_pos_svm_rm_alphanumeric, artist_pos_svm_emoji_link_num_punct, 
+    # athlete_pos_svm_spacy_within_prep, athlete_pos_svm_spacy_token, 
+    # athlete_pos_svm_token_stopword_lowercase_lemma,
+    # athlete_pos_svm_rm_alphanumeric, athlete_pos_svm_emoji_link_num_punct, 
+    # youtuber_pos_svm_spacy_within_prep, youtuber_pos_svm_spacy_token,
+    # youtuber_pos_svm_token_stopword_lowercase_lemma, youtuber_pos_svm_rm_alphanumeric,
+    # youtuber_pos_svm_emoji_link_num_punct, all_pos_svm_spacy_within_prep,
+    # all_pos_svm_spacy_token, all_pos_svm_token_stopword_lowercase_lemma,
+    # all_pos_svm_rm_alphanumeric, all_pos_svm_emoji_link_num_punct, politic_big_svm_spacy_within_prep,
+    # politic_big_svm_spacy_token, politic_big_svm_token_stopword_lowercase_lemma,
+    # politic_big_svm_rm_alphanumeric, politic_big_svm_emoji_link_num_punct,
+    # artist_big_svm_spacy_within_prep, artist_big_svm_spacy_token,
+    # artist_big_svm_token_stopword_lowercase_lemma, artist_big_svm_rm_alphanumeric,
+    # artist_big_svm_emoji_link_num_punct, athlete_big_svm_spacy_within_prep,
+    # athlete_big_svm_spacy_token, athlete_big_svm_token_stopword_lowercase_lemma,
+    # athlete_big_svm_rm_alphanumeric, athlete_big_svm_emoji_link_num_punct,
+    # youtuber_big_svm_spacy_within_prep, youtuber_big_svm_spacy_token,
+    # youtuber_big_svm_token_stopword_lowercase_lemma, youtuber_big_svm_rm_alphanumeric,
+    # youtuber_big_svm_emoji_link_num_punct, all_big_svm_spacy_within_prep,
+    # all_big_svm_spacy_token, all_big_svm_token_stopword_lowercase_lemma,
+    # all_big_svm_rm_alphanumeric, all_big_svm_emoji_link_num_punct,
+    # politic_pos_svm_stanza_token, artist_pos_svm_stanza_token, athlete_pos_svm_stanza_token, 
+    # youtuber_pos_svm_stanza_token, all_pos_svm_stanza_token,
+    # politic_pos_bayes_spacy_token, artist_pos_bayes_spacy_token,
+    # athlete_pos_bayes_spacy_token, youtuber_pos_bayes_spacy_token, all_pos_bayes_spacy_token,
+    # politic_big_bayes_spacy_token, artist_big_bayes_spacy_token, athlete_big_bayes_spacy_token,
+    # youtuber_big_bayes_spacy_token, all_big_bayes_spacy_token, politic_pos_rl_spacy_token, 
+    # artist_pos_rl_spacy_token, athlete_pos_rl_spacy_token, youtuber_pos_rl_spacy_token,
+    # all_pos_rl_spacy_token, politic_big_rl_spacy_token, artist_big_rl_spacy_token, 
+    # athlete_big_rl_spacy_token, youtuber_big_rl_spacy_token, all_big_rl_spacy_token
     # politic_bert_within_prep, politic_bert_spacy_token, politic_bert_token_stopword_lowercase_lemma,
     # politic_bert_rm_alphanumeric, politic_bert_emoji_link_num_punct, artist_bert_within_prep,
     # artist_bert_spacy_token, artist_bert_token_stopword_lowercase_lemma, artist_bert_rm_alphanumeric,
@@ -2281,65 +2301,103 @@ def save_(list_count_tweets_x_user_to_download):
     # youtuber_bert_rm_alphanumeric, youtuber_bert_emoji_link_num_punct,
     # all_bert_within_prep, all_bert_spacy_token, all_bert_token_stopword_lowercase_lemma,
     # all_bert_rm_alphanumeric, all_bert_emoji_link_num_punct
-    ]
+    # ]
 
     for index, count_tweets in enumerate(list_count_tweets_x_user_to_download):
         for idx, method in enumerate(list_method):
-
-            # #Para reanudar en la siguiente posicion del metodo que se registró en los logs
-            # if indx < 2:
-            #     break
-            # if idx < 25:
-            #   continue
-
             values = method(count_tweets)
             tuple_data = values[0]
             config = values[1]
 
-            accuracy = tuple_data[0]
-            recall = tuple_data[1]
-            f1 = tuple_data[2]
-            total_classes = tuple_data[3]
-            total_sentences = tuple_data[4]
-            library = config.tagging_method.name
+            if(len(tuple_data) == 5):
+                accuracy = tuple_data[0]
+                recall = tuple_data[1]
+                f1 = tuple_data[2]
+                total_classes = tuple_data[3]
+                total_sentences = tuple_data[4]
+                list_total_classes.append(total_classes)
+                list_total_sentences.append(total_sentences)
+                list_accuracy.append(int(float(accuracy)*100))
+                list_recall.append(int(float(recall)*100))
+                list_f1.append(int(float(f1)*100))
+                list_library.append(config.tagging_method.name)
 
-            list_preprocessesing = config.preprocessing_methods
+                if idx == len(list_method)-26 and index == len(list_count_tweets_x_user_to_download)-1:
+                    dict_results = {
+                        'ACCURACY': list_accuracy,
+                        'RECALL': list_recall,
+                        'F1': list_f1
+                    }
+                    dump(dict_results, f'DATA_FRAME/acc_rec_f1')
+            else:
+                X = tuple_data[0]
+                y = tuple_data[1]
+                dictionary_X_y = {'X': X, 'y': y}
+                dump(dictionary_X_y, f'BERT_DATA_SET/{count_tweets}/{method.__name__}')
+                
+        print(f'Conjunto{count_tweets} completado')
 
-            if list_preprocessesing == []:
-                prep = 'BASIC'
-            elif list_preprocessesing[0] == Preprocessing.FIX_HASHTAG_TEXT and len(list_preprocessesing) == 1:
-                prep = 'TOKENIZE'
-            elif list_preprocessesing[0] == Preprocessing.FIX_HASHTAG_TEXT and list_preprocessesing[1]:
-                prep = 'SYNTAX'
-            elif list_preprocessesing[0] == Preprocessing.EMOTICONS:
-                prep = 'ARTIFACT'
-            elif list_preprocessesing[0] == Preprocessing.REMOVE_ALPHA_NUMERIC:
-                prep = 'RM_ALPHA_NUM'
+                # if config.tagging_method != None:
+                #     list_library.append(config.tagging_method.name)
+                # else:
+                #     list_library.append('-')
 
-            encoding = config.encoding_method.name
+            # list_preprocessesing = config.preprocessing_methods
 
-            classifier = config.classification_method.name
+            # if list_preprocessesing == []:
+            #     list_prep.append('BASIC')
+            # elif list_preprocessesing[0] == Preprocessing.FIX_HASHTAG_TEXT and len(list_preprocessesing) == 1:
+            #     list_prep.append('TOKENIZE')
+            # elif list_preprocessesing[0] == Preprocessing.FIX_HASHTAG_TEXT and list_preprocessesing[1]:
+            #     list_prep.append('SYNTAX')
+            # elif list_preprocessesing[0] == Preprocessing.EMOTICONS:
+            #     list_prep.append('ARTIFACT')
+            # elif list_preprocessesing[0] == Preprocessing.REMOVE_ALPHA_NUMERIC:
+            #     list_prep.append('RM_ALPHA_NUM')
 
-            dataset = config.type_dataset
+            # list_encoding.append(config.encoding_method.name)
 
-            #Filling dataframe
-            df.loc[cont] = pd.Series({'total_classes':total_classes, 'total_sentences':total_sentences, 
-                                            'count_tweets_x_user': count_tweets, 'dataset':dataset, 
-                                            'preprocessing':prep, 'encoding':encoding, 
-                                            'classifier':classifier, 'library':library, 'accuracy':int(float(accuracy)*100), 
-                                            'recall':int(float(recall)*100), 'f1': int(float(f1)*100)})
+            # list_classifier.append(config.classification_method.name)
 
-            dump(df, 'DATA_FRAME/dataframe')
+            # list_dataset.append(config.type_dataset)
 
-            cont += 1
-            
-            #Record logs
-            logging.basicConfig(filename='log/record.log',
-                            filemode='a',format='%(asctime)s : %(levelname)s : %(message)s',
-                            datefmt='%d/%m/%y %H:%M:%S',
-                            level=logging.INFO
-                            )
-            logging.info(f'[Posicion_list_count_tweet_x_user: {index} count_tweet_x_user: {count_tweets}], [Posicion_method: {idx} Nombre del Método: {method.__name__}], [INDEX_DATAFRAME: {cont}]')
+            # list_count_tweets_x_user.append(count_tweets)
+
+    return list_dataset, list_prep, list_encoding, list_library, list_classifier, list_total_classes, list_total_sentences, list_count_tweets_x_user
+    # return list_accuracy, list_recall, list_f1, list_dataset, list_prep, list_encoding, list_library, list_classifier, list_total_classes, list_total_sentences, list_count_tweets_x_user
+    
+    # dump(tuple_data, f'DATA_FRAME/tuple_data')
+
+def fill_data_frame():
+
+    list_dataset, list_prep, list_encoding, list_library, list_classifier, list_total_classes, list_total_sentences, list_count_tweets_x_user = save_(list_count_tweets_x_user_to_download)
+    # list_accuracy, list_recall, list_f1, list_dataset, list_prep, list_encoding, list_library, list_classifier, list_total_classes, list_total_sentences, list_count_tweets_x_user = save_(list_count_tweets_x_user_to_download)
+  
+    df['total_classes'] = list_total_classes
+    df['total_sentences'] = list_total_sentences
+    df['count_tweets_x_user'] = list_count_tweets_x_user
+    df['dataset'] = list_dataset
+    df['preprocessing'] = list_prep
+    df['encoding'] = list_encoding
+    df['classifier'] = list_classifier
+    df['library'] = list_library
+    # df['accuracy'] = list_accuracy
+    # df['recall'] = list_recall
+    # df['f1'] = list_f1
+
+    dump(df, f'DATA_FRAME/dataframe')
+
+def modify_data_frame():
+
+    df = load(f'DATA_FRAME/dataframe')
+
+    # pass
 
 if __name__ == "__main__":
     save_(list_count_tweets_x_user_to_download)
+    # fill_data_frame()
+    # pipeline.run()
+
+
+configs = []
+datasets = []

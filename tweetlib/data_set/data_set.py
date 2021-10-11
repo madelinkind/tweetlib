@@ -62,7 +62,7 @@ class DataSet():
     def get_user_tweets(self, user_type: TypeDataSet, count_tweets_x_user):
 
         list_users = self.get_list_users(user_type, count_tweets_x_user)
-        print(list_users)
+        print(f'Descargando dataset {user_type}...')
         # Lists of Data(texts) and Class(y) in (es)
         data = []
         y = []
@@ -86,14 +86,15 @@ class DataSet():
                         y.append(cont_id - 1)
                     else:
                         break
-        print(len(data))
-        print(len(y))
-        print(y)
-        print(cont_users)
+        # print(len(data))
+        # print(len(y))
+        # print(y)
+        # print(cont_users)
         # print(y)
 
         # dump(data, 'models/X_test')
         # dump(y, 'models/y_test')
+        print('Descarga lista.')
         return data, y
 
     def get_data(self):

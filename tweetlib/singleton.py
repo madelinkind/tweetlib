@@ -10,12 +10,11 @@ class Utils(object):
     @staticmethod
     def ngrams(n):
         if n in Utils.ngram_dict:
+            for key, _ in Utils.ngram_dict[n].items():
+                Utils.ngram_dict[n][key] = 0
             return Utils.ngram_dict[n]
         else:
-            # compute ngrams
-            # list_alpha_numeric = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú1234567890@#/()=?¿¡;,.:…_-\'"]\[}{|<>'
-            #Agregados nuevos ?!;,.:_()|
-            #Agregados nuevos " "
+         
             list_alpha_numeric = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú1234567890@#? !;,.:_()|😥🥺😓😪😞😒😂🤣😅😊😆😁😄🙂😉😌😍🥰😘😗😚😋😛😝😜🤪🤓🤗📹😳❤️👏💪'
 
             result_dict = ["".join(p) for p in itertools.product(list_alpha_numeric, repeat=n)]
@@ -23,10 +22,10 @@ class Utils(object):
             for i in result_dict:
                 Utils.dict_ngram[i] = 0
 
-            # store ngrams in 'NGramUtils.ngram_dict'
-            Utils.ngram_dict[n] = Utils.dict_ngram
+            # store ngrams in dict 'NGramUtils.ngram_dict'
+            Utils.ngram_dict[n] = Utils.dict_ngram.copy()
             # return result
-            return Utils.ngram_dict[n]
+            return Utils.dict_ngram
 
     @staticmethod
     def load_nlp(nlp):

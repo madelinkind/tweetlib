@@ -27,19 +27,19 @@ Evaluar el preprocesamiento para los diferentes dataset y Count_Tweet_x_DataSet:
 
 ## Library (SPACY vs STANZA)
 
-Evaluar la Libreria para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
+Evaluar las Librerias para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
 
-### Exp 1: SPACY
+### Exp 1: SPACY vs STANZA
 
 1. Config:
         #Preprocessing: TOKENIZE
         #Encoding: POS
         #Classifier: SVM
-        #Tagging: SPACY
+        #Tagging: SPACY, STANZA
 2. DataSet: Politicos(10), Deportistas(10), Artistas(10), Youtubers(10) y Todos(40)
 3. Count_Tweet_x_DataSet: 1000
 
-### Exp 2: STANZA
+<!-- ### Exp 2: STANZA
 
 1. Config:
         #Preprocessing: TOKENIZE
@@ -47,7 +47,7 @@ Evaluar la Libreria para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
         #Classifier: SVM
         #Tagging: STANZA
 2. DataSet: Politicos(10), Deportistas(10), Artistas(10), Youtubers(10) y Todos(40)
-3. Count_Tweet_x_DataSet: 1000
+3. Count_Tweet_x_DataSet: 1000 -->
 
 #### Qué Library es la más adecuada para el encoding de POS...
 
@@ -55,17 +55,17 @@ Evaluar la Libreria para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
 
 Evaluar el encoding para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
 
-### Exp 1: SVM
+### Exp 1: SVM vs BAYES vs LOGISTIC REGRESSION
 
 1. Config:
         #Preprocessing: TOKENIZE
         #Encoding: POS
-        #Classifier: SVM
+        #Classifier: SVM, BAYES, LOGISTIC REGRESSION
         #Tagging: SPACY
 2. DataSet: Politicos(10), Deportistas(10), Artistas(10), Youtubers(10) y Todos(40)
 3. Count_Tweet_x_DataSet: 1000
 
-### Exp 2: BAYES
+<!-- ### Exp 2: BAYES
 
 1. Config:
         #Preprocessing: TOKENIZE
@@ -83,35 +83,35 @@ Evaluar el encoding para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
         #Classifier: LOGISTIC REGRESSION
         #Tagging: SPACY
 2. DataSet: Politicos(10), Deportistas(10), Artistas(10), Youtubers(10) y Todos(40)
-3. Count_Tweet_x_DataSet: 1000
+3. Count_Tweet_x_DataSet: 1000 -->
 #### Cuál es el Classifier con mejor resultado. (Accuracy) ...
 
 ## Encoding
 
 Evaluar los Encoding para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
-### Exp 1: POS
+### Exp 1: POS vs BIGRAM
 1. Config:
         #Preprocessing: TOKENIZE
-        #Encoding: POS
+        #Encoding: POS, BIGRAM
         #Classifier: SVM
         #Tagging: SPACY
 2. DataSet: Politicos(10), Deportistas(10), Artistas(10), Youtubers(10) y Todos(40)
 3. Count_Tweet_x_DataSet: 1000
 
-### Exp 2: BIGRAM
+<!-- ### Exp 2: BIGRAM
 1. Config:
         #Preprocessing: TOKENIZE
         #Encoding: BIGRAM
         #Classifier: SVM
         #Tagging: SPACY
 2. DataSet: Politicos(10), Deportistas(10), Artistas(10), Youtubers(10) y Todos(40)
-3. Count_Tweet_x_DataSet: 1000
+3. Count_Tweet_x_DataSet: 1000 -->
 
 #### Qué Encoding da mejor resultado. Y los dataset que más aporten al encoding. Podemos sacar conclusiones con los diferentes dataset, ejemplo a los politicos otros pueden escribir sus tweets, por lo que quizas no den mejores resultados como los youtubers..
 
 ## Variedad en cantidad de tweets por usuario, usando DataSet: Todos (40)
 
-### Exp 1: POS
+### Exp 1: POS, BIGRAM
 1. Config:
         #Preprocessing: TOKENIZE
         #Encoding: POS
@@ -119,7 +119,7 @@ Evaluar los Encoding para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
         #Tagging: SPACY
 2. DataSet: Todos(40)
 3. Count_Tweet_x_DataSet: 50, 100, 200, 500, 1000
-
+<!-- 
 ### Exp 2: BIGRAM
 1. Config:
         #Preprocessing: TOKENIZE
@@ -127,11 +127,11 @@ Evaluar los Encoding para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
         #Classifier: SVM
         #Tagging: SPACY
 2. DataSet: Todos(40)
-3. Count_Tweet_x_DataSet: 50, 100, 200, 500, 1000
+3. Count_Tweet_x_DataSet: 50, 100, 200, 500, 1000 -->
 
 #### Cómo varian los resultados del Encoding con respecto a la cantidad de tweets por usuario. 
 
-## Marching Learning (SVM) vs Deep Learning (BERT)
+
 
 Evaluar Mejor preprocessing (TOKENIZE), Encoding (BIG), Clasificador tradicional (SVM) vs BERT (Deep Learning) Preprocessing (Basic). Para los diferentes dataset y Count_Tweet_x_DataSet: 1000:
 ### Exp 1: SVM

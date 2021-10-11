@@ -49,7 +49,7 @@ from joblib import dump
 
 class TwitterPipeline(object):
 
-    def __init__(self, config: Configuration, classifier: Classification, task: TypeTask, dataset: DataSet = None, text: list = None, id_model: str = None, n_value: int = None, model = None, len_labels = None):
+    def __init__(self, config: Configuration, classifier: Classification = None, task: TypeTask = None, dataset: DataSet = None, text: list = None, id_model: str = None, n_value: int = None, model = None, len_labels = None):
         super(TwitterPipeline, self).__init__()
 
         self.config = config
@@ -73,28 +73,29 @@ class TwitterPipeline(object):
             tagging_method_type = self.config.get_tagging_method()
             #INITIALIZE THE LIBRARY TO USE
             nlp = Utils.load_nlp(tagging_method_type)
-
+        
         preprocessing_list = self.config.get_preprocessing_methods()
         encoding = self.config.get_encoding_method()
         classifier_type = self.config.get_classification_method()
         # type_user = self.config.get_type_user()
         # vectors = []
+        if self.task != None:
+            # gettting the type of task
+            type_task = dict_task[self.task]
 
-        # gettting the type of task
-        type_task = dict_task[self.task]
-
-        if self.task.name == 'PREDICTION' or self.task.name == 'PREDICTION_BERT' and self.dataset == None:
-            if len(self.text) != 0: 
-                data_texts = self.text
-                y = None
-            else:
-                print('The file is empty, you must enter a file with one or more texts to predict')
+            if self.task.name == 'PREDICTION' or self.task.name == 'PREDICTION_BERT' and self.dataset == None:
+                if len(self.text) != 0: 
+                    data_texts = self.text
+                    y = None
+                else:
+                    print('The file is empty, you must enter a file with one or more texts to predict')
+                    return
+            elif self.dataset == None:
+                print('You must enter a data set both to store the model and to validate it')
                 return
-        elif self.dataset == None:
-            print('You must enter a data set both to store the model and to validate it')
-            return
 
-        for preprocessing in preprocessing_list:
+        for indx, preprocessing in enumerate(preprocessing_list):
+            print("Comenzando preprocesamiento...")
             prep_method = dict_preprocessing[preprocessing]
             if preprocessing.name != 'LOWERCASE' and preprocessing.name != 'REMOVE_STOP_WORDS' and preprocessing.name != 'MENTIONS':
                 for idx, text_prep in enumerate(data_texts):
@@ -104,54 +105,49 @@ class TwitterPipeline(object):
                 for idx, text in enumerate(data_texts):
                     prep = prep_method(text)
                     data_texts[idx] = prep
-        # dump(data_texts, 'models/X')
-        # dump(y, 'models/y')
-        # apply encoding
+            if len(preprocessing_list)-1 == indx: 
+                print("Preprocesamiento listo.")
+
+        print("Comenzando codificación...")
         encoding_method = dict_encoding[encoding]
+        #Para obtener los datos para bert preprocesados
+        # if encoding.name == 'BERT': 
+        #     return data_texts, y
+
         if  encoding.name != 'BERT':
             if encoding.name == 'BIGRAM' or encoding.name == 'TRIGRAM' or encoding.name == 'CUATRIGRAM':
                 vector_encoding = encoding_method(data_texts)
             elif encoding.name == 'ALL_CHARGRAM':
                 vector_encoding = encoding_method(data_texts)
-                # vector_encoding = np.concatenate(vectors[0], vectors[1])
             elif encoding.name == 'POS_ALL_CHARGRAM':
                 vector_encoding = encoding_method(data_texts, tagging_method_type.name, nlp)
-                # vector_encoding = np.concatenate(vectors[0], vectors[1], vectors[2])
-            #postagging
             else:
                 vector_encoding = encoding_method(data_texts, tagging_method_type.name, nlp)
             X = np.vstack(vector_encoding)
             nan = np.isnan(X)
             X[nan] = 0.0
-            # for idx, matriz in enumerate(X):
-            #     matriz_NaN = np.isnan(matriz)
-            #     if True in matriz_NaN:
-            #         print(f'Chequear por que este vector es NaN {matriz}, la posicion de la oracion es: {idx}')
 
         else:
             vector_encoding_bert = encoding_method(data_texts, y)
-        # dump(vector_encoding, 'models/TEXT1')
-        # dump(y, 'models/CLASS1')
         print("Encoding listo.")
- 
-        # instancia de Classification
-        # c = self.classifier
+
         if self.task.name == 'VALIDATE_MODEL':
-            print("Comenzando tarea de validación:")
-            #Devuelve una tupla con la lista de accuracy y un entero que es el promedio de esa lista
             accuracy, recall, f1, total_class, total_tweets = type_task(X, y, classifier_type)
             return accuracy, recall, f1, total_class, total_tweets
+
         elif self.task.name == 'VALIDATE_MODEL_BERT':
             accuracy, recall, f1, total_class, total_tweets = type_task(vector_encoding_bert[0], vector_encoding_bert[1], vector_encoding_bert[2], vector_encoding_bert[4], vector_encoding_bert[5])
             return accuracy, recall, f1, total_class, total_tweets
-        # accuracy = self.classifier.classification_method(X, y, classifier_type). n_value cantidad de clases con mejor presicion
+
         elif self.task.name == 'PREDICTION':
             type_task(self.model, X, self.n_value)
+
         elif self.task.name == 'PREDICTION_BERT':
             type_task(self.model, vector_encoding_bert[0], vector_encoding_bert[1], self.n_value, self.len_labels)
+        
         elif self.task.name == 'MODEL_STORAGE':
-            # save_model = self.classifier.save_model(X, y, preprocessing_list, encoding, classifier_type, tagging_method_type, type_task, type_user)
             type_task(self.id_model, self.config, X, y, classifier_type)
+        
         elif self.task.name == 'MODEL_STORAGE_BERT':
             type_task(self.id_model, self.config, classifier_type, vector_encoding_bert[0], vector_encoding_bert[1], vector_encoding_bert[2], vector_encoding_bert[3], vector_encoding_bert[4])
 

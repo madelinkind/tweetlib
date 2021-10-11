@@ -148,3 +148,6 @@ DATA_FRAME
 
 #File models
 models
+
+#Logs
+log
