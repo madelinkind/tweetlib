@@ -841,7 +841,7 @@ def all_pos_svm_emoji_link_num_punct(count_tweets):
     pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
     return pipeline.run(), config
 
-#--------------------------------------PREPROSSESING - BIGRAM---------------------------------------
+#--------------------------------------PREPROSSESING - BIGRAM------------------------------
 ###########################################################################################
 #########################################POLITICOS#########################################
 ###########################################################################################
@@ -1655,6 +1655,25 @@ def all_big_svm_emoji_link_num_punct(count_tweets):
 #########################################STANZA############################################
 ###########################################################################################
 #------------------------------------------------------------------------------------------
+#--------------------------------------------#POLITICO#-----------------------------------#
+def politic_pos_svm_stanza_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.SVM,
+        TaggingMethod.STANZA,
+        TypeDataSet.politico
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetPoliticos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
 
 #--------------------------------------------#POLITICO#-----------------------------------#
 def politic_pos_svm_stanza_token(count_tweets):
@@ -1678,6 +1697,28 @@ def politic_pos_svm_stanza_token(count_tweets):
     return pipeline.run(), config
 
 #--------------------------------------------#ARTISTA#------------------------------------#
+
+def artist_pos_svm_stanza_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.SVM,
+        TaggingMethod.STANZA,
+        TypeDataSet.artista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetArtistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#------------------------------------------------------------------------------------------
+
 def artist_pos_svm_stanza_token(count_tweets):
     config = Configuration([
             Preprocessing.FIX_HASHTAG_TEXT
@@ -1699,6 +1740,27 @@ def artist_pos_svm_stanza_token(count_tweets):
     return pipeline.run(), config
 
 #--------------------------------------------#DEPORTISTA#---------------------------------#
+def athlete_pos_svm_stanza_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.SVM,
+        TaggingMethod.STANZA,
+        TypeDataSet.deportista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetDeportistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+#------------------------------------------------------------------------------------------
+
 def athlete_pos_svm_stanza_token(count_tweets):
 
     config = Configuration([
@@ -1722,6 +1784,28 @@ def athlete_pos_svm_stanza_token(count_tweets):
 
 #--------------------------------------------#YOUTUBER#-----------------------------------#
 
+def youtuber_pos_svm_stanza_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.SVM,
+        TaggingMethod.STANZA,
+        TypeDataSet.youtuber
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetYoutubers(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#------------------------------------------------------------------------------------------
+
 def youtuber_pos_svm_stanza_token(count_tweets):
 
     config = Configuration([
@@ -1744,6 +1828,27 @@ def youtuber_pos_svm_stanza_token(count_tweets):
     return pipeline.run(), config
 
 #--------------------------------------------#TODOS#-----------------------------------#
+
+def all_pos_svm_stanza_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.SVM,
+        TaggingMethod.STANZA,
+        TypeDataSet.all_results
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetTodos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+#------------------------------------------------------------------------------------------
 
 def all_pos_svm_stanza_token(count_tweets):
 
@@ -1771,6 +1876,110 @@ def all_pos_svm_stanza_token(count_tweets):
 #########################################BAYES######POSTAGGING#############################
 ###########################################################################################
 #------------------------------------------------------------------------------------------
+
+#---------------------------------------#POLITICO#----------------------------------------#
+def politic_pos_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.politico
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetPoliticos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#ARTISTA#------------------------------------#
+def artist_pos_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.artista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetArtistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#DEPORTISTA#---------------------------------#
+def athlete_pos_bayes_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.deportista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetDeportistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#YOUTUBER#-----------------------------------#
+
+def youtuber_pos_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.youtuber
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetYoutubers(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#TODOS#-----------------------------------#
+
+def all_pos_bayes_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.all_results
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetTodos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
 
 #---------------------------------------#POLITICO#----------------------------------------#
 def politic_pos_bayes_spacy_token(count_tweets):
@@ -1886,6 +2095,108 @@ def all_pos_bayes_spacy_token(count_tweets):
 #########################################BAYES########BIGRAM###############################
 ###########################################################################################
 #------------------------------------------------------------------------------------------
+#---------------------------------------#POLITICO#----------------------------------------#
+def politic_big_bayes_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.politico
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetPoliticos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#ARTISTA#------------------------------------#
+def artist_big_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.artista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetArtistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#DEPORTISTA#---------------------------------#
+def athlete_big_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.deportista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetDeportistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#YOUTUBER#-----------------------------------#
+
+def youtuber_big_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.youtuber
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetYoutubers(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#TODOS#-----------------------------------#
+
+def all_big_bayes_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.BAYES,
+        TaggingMethod.SPACY,
+        TypeDataSet.all_results
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetTodos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
 
 #---------------------------------------#POLITICO#----------------------------------------#
 def politic_big_bayes_spacy_token(count_tweets):
@@ -2000,6 +2311,109 @@ def all_big_bayes_spacy_token(count_tweets):
 ##################################LOGISTIC REGRESSION######POSTAGGING#######################
 ###########################################################################################
 #------------------------------------------------------------------------------------------
+#---------------------------------------#POLITICO#----------------------------------------#
+def politic_pos_rl_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.politico
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetPoliticos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#ARTISTA#------------------------------------#
+def artist_pos_rl_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.artista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetArtistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#DEPORTISTA#---------------------------------#
+def athlete_pos_rl_spacy_within_prep(count_tweets):
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.deportista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetDeportistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#YOUTUBER#-----------------------------------#
+
+def youtuber_pos_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.youtuber
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetYoutubers(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#TODOS#-----------------------------------#
+
+def all_pos_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.POSTAGGING,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.all_results
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetTodos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
 
 #---------------------------------------#POLITICO#----------------------------------------#
 def politic_pos_rl_spacy_token(count_tweets):
@@ -2115,6 +2529,112 @@ def all_pos_rl_spacy_token(count_tweets):
 ##################################LOGISTC REGRESSION########BIGRAM###########################
 ###########################################################################################
 #------------------------------------------------------------------------------------------
+#---------------------------------------#POLITICO#----------------------------------------#
+def politic_big_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.politico
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetPoliticos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#ARTISTA#------------------------------------#
+def artist_big_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.artista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetArtistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#DEPORTISTA#---------------------------------#
+def athlete_big_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.deportista
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetDeportistas(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#YOUTUBER#-----------------------------------#
+
+def youtuber_big_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.youtuber
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetYoutubers(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
+
+#--------------------------------------------#TODOS#-----------------------------------#
+
+def all_big_rl_spacy_within_prep(count_tweets):
+
+    config = Configuration([
+        ], 
+        EncodingMethod.BIGRAM,
+        ClassificationMethod.LOGISTIC_REGRESSION,
+        TaggingMethod.SPACY,
+        TypeDataSet.all_results
+    )
+
+    #-----------------VALIDATE_MODEL------------------------
+    type_task = TypeTask.VALIDATE_MODEL
+    #------------------------------------------------------
+
+    data_set = DataSetTodos(count_tweets)
+
+    classifier = Classification()
+    pipeline = TwitterPipeline(config, classifier, type_task, dataset=data_set)
+    return pipeline.run(), config
 
 #---------------------------------------#POLITICO#----------------------------------------#
 def politic_big_rl_spacy_token(count_tweets):
@@ -2262,15 +2782,29 @@ def save_(list_count_tweets_x_user_to_download):
     youtuber_big_svm_emoji_link_num_punct, all_big_svm_spacy_within_prep,
     all_big_svm_spacy_token, all_big_svm_token_stopword_lowercase_lemma,
     all_big_svm_rm_alphanumeric, all_big_svm_emoji_link_num_punct,
-    politic_pos_svm_stanza_token, artist_pos_svm_stanza_token, athlete_pos_svm_stanza_token, 
+    politic_pos_svm_stanza_within_prep, artist_pos_svm_stanza_within_prep,
+    athlete_pos_svm_stanza_within_prep, youtuber_pos_svm_stanza_within_prep,
+    all_pos_svm_stanza_within_prep, politic_pos_svm_stanza_token, 
+    artist_pos_svm_stanza_token, athlete_pos_svm_stanza_token, 
     youtuber_pos_svm_stanza_token, all_pos_svm_stanza_token,
     politic_pos_bayes_spacy_token, artist_pos_bayes_spacy_token,
-    athlete_pos_bayes_spacy_token, youtuber_pos_bayes_spacy_token, all_pos_bayes_spacy_token,
-    politic_big_bayes_spacy_token, artist_big_bayes_spacy_token, athlete_big_bayes_spacy_token,
-    youtuber_big_bayes_spacy_token, all_big_bayes_spacy_token, politic_pos_rl_spacy_token, 
+    politic_pos_bayes_spacy_within_prep, artist_pos_bayes_spacy_within_prep,
+    athlete_pos_bayes_spacy_within_prep, youtuber_pos_bayes_spacy_within_prep,
+    all_pos_bayes_spacy_within_prep, athlete_pos_bayes_spacy_token, 
+    youtuber_pos_bayes_spacy_token, all_pos_bayes_spacy_token,
+    politic_big_bayes_spacy_within_prep, artist_big_bayes_spacy_within_prep,
+    athlete_big_bayes_spacy_within_prep, youtuber_big_bayes_spacy_within_prep,
+    all_big_bayes_spacy_within_prep, politic_big_bayes_spacy_token, 
+    artist_big_bayes_spacy_token, athlete_big_bayes_spacy_token,
+    youtuber_big_bayes_spacy_token, all_big_bayes_spacy_token, 
+    politic_pos_rl_spacy_within_prep, artist_pos_rl_spacy_within_prep,
+    athlete_pos_rl_spacy_within_prep, youtuber_pos_rl_spacy_within_prep,
+    all_pos_rl_spacy_within_prep, politic_pos_rl_spacy_token, 
     artist_pos_rl_spacy_token, athlete_pos_rl_spacy_token, youtuber_pos_rl_spacy_token,
-    all_pos_rl_spacy_token, politic_big_rl_spacy_token, artist_big_rl_spacy_token, 
-    athlete_big_rl_spacy_token, youtuber_big_rl_spacy_token, all_big_rl_spacy_token
+    all_pos_rl_spacy_token, politic_big_rl_spacy_within_prep, artist_big_rl_spacy_within_prep,
+    athlete_big_rl_spacy_within_prep, youtuber_big_rl_spacy_within_prep, all_big_rl_spacy_within_prep,
+    politic_big_rl_spacy_token, artist_big_rl_spacy_token, athlete_big_rl_spacy_token, 
+    youtuber_big_rl_spacy_token, all_big_rl_spacy_token
     # politic_bert_within_prep, politic_bert_spacy_token, politic_bert_token_stopword_lowercase_lemma,
     # politic_bert_rm_alphanumeric, politic_bert_emoji_link_num_punct, artist_bert_within_prep,
     # artist_bert_spacy_token, artist_bert_token_stopword_lowercase_lemma, artist_bert_rm_alphanumeric,
@@ -2330,8 +2864,6 @@ def save_(list_count_tweets_x_user_to_download):
                                             'recall':int(float(recall)*100), 'f1': int(float(f1)*100)})
 
             dump(df, 'DATA_FRAME/dataframe')
-
-            cont += 1
             
             #Record logs
             logging.basicConfig(filename='log/record.log',
@@ -2340,6 +2872,8 @@ def save_(list_count_tweets_x_user_to_download):
                             level=logging.INFO
                             )
             logging.info(f'[Posicion_list_count_tweet_x_user: {index} count_tweet_x_user: {count_tweets}], [Posicion_method: {idx} Nombre del Método: {method.__name__}], [INDEX_DATAFRAME: {cont}]')
+
+            cont += 1
 
 if __name__ == "__main__":
     save_(list_count_tweets_x_user_to_download)

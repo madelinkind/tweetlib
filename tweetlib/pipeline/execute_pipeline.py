@@ -63,6 +63,10 @@ class TwitterPipeline(object):
         self.len_labels = len_labels
 
     def run(self):
+
+        data_sents = []
+        y_label = []
+
         # get data and classes from self.data
         if self.dataset != None:
             data = self.dataset.get_data()
@@ -108,6 +112,15 @@ class TwitterPipeline(object):
             if len(preprocessing_list)-1 == indx: 
                 print("Preprocesamiento listo.")
 
+        #Verificar que luego del procesamiento no queden listas vacías
+        for idx, sent in enumerate(data_texts):
+            if sent != []:
+                data_sents.append(sent)
+                if y != None:
+                    y_label.append(y[idx])
+            else:
+                continue
+
         print("Comenzando codificación...")
         encoding_method = dict_encoding[encoding]
         #Para obtener los datos para bert preprocesados
@@ -116,23 +129,23 @@ class TwitterPipeline(object):
 
         if  encoding.name != 'BERT':
             if encoding.name == 'BIGRAM' or encoding.name == 'TRIGRAM' or encoding.name == 'CUATRIGRAM':
-                vector_encoding = encoding_method(data_texts)
+                vector_encoding = encoding_method(data_sents)
             elif encoding.name == 'ALL_CHARGRAM':
-                vector_encoding = encoding_method(data_texts)
+                vector_encoding = encoding_method(data_sents)
             elif encoding.name == 'POS_ALL_CHARGRAM':
-                vector_encoding = encoding_method(data_texts, tagging_method_type.name, nlp)
+                vector_encoding = encoding_method(data_sents, tagging_method_type.name, nlp)
             else:
-                vector_encoding = encoding_method(data_texts, tagging_method_type.name, nlp)
+                vector_encoding = encoding_method(data_sents, tagging_method_type.name, nlp)
             X = np.vstack(vector_encoding)
             nan = np.isnan(X)
             X[nan] = 0.0
 
         else:
-            vector_encoding_bert = encoding_method(data_texts, y)
+            vector_encoding_bert = encoding_method(data_sents, y_label)
         print("Encoding listo.")
 
         if self.task.name == 'VALIDATE_MODEL':
-            accuracy, recall, f1, total_class, total_tweets = type_task(X, y, classifier_type)
+            accuracy, recall, f1, total_class, total_tweets = type_task(X, y_label, classifier_type)
             return accuracy, recall, f1, total_class, total_tweets
 
         elif self.task.name == 'VALIDATE_MODEL_BERT':
@@ -146,11 +159,11 @@ class TwitterPipeline(object):
             type_task(self.model, vector_encoding_bert[0], vector_encoding_bert[1], self.n_value, self.len_labels)
         
         elif self.task.name == 'MODEL_STORAGE':
-            type_task(self.id_model, self.config, X, y, classifier_type)
+            type_task(self.id_model, self.config, X, y_label, classifier_type)
         
         elif self.task.name == 'MODEL_STORAGE_BERT':
             type_task(self.id_model, self.config, classifier_type, vector_encoding_bert[0], vector_encoding_bert[1], vector_encoding_bert[2], vector_encoding_bert[3], vector_encoding_bert[4])
 
         #PCA
         else:
-            type_task(X, y)
+            type_task(X, y_label)

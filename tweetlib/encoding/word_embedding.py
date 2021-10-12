@@ -27,8 +27,19 @@ def preprocessing_encoding_for_bert(sentences, y_label=None):
     input_ids = []
     attention_masks = []
 
+    X = []
+    y = []
+
+    for idx, x in enumerate(sentences):
+      if x != []:
+        X.append(x)
+        if y_label != None:
+          y.append(y_label[idx])
+      else:
+        continue
+
     # For every sentence...
-    for sent in sentences:
+    for sent in X:
         # `encode_plus` will:
         #   (1) Tokenize the sentence.
         #   (2) Prepend the `[CLS]` token to the start.
@@ -57,8 +68,8 @@ def preprocessing_encoding_for_bert(sentences, y_label=None):
 
     if y_label != None:
         # Convert the lists into tensors.
-        len_labels = len(list(set(y_label)))
-        labels = torch.tensor(y_label)
+        len_labels = len(list(set(y)))
+        labels = torch.tensor(y)
         return input_ids, attention_masks, labels, tokenizer, len_labels, len(sentences)
     else:
         return input_ids, attention_masks
