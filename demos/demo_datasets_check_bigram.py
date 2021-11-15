@@ -26,7 +26,11 @@ import pandas as pd
 import numpy as np
 import logging
 
-list_count_tweets_x_user_to_download = [500]
+# list_count_tweets_x_user_to_download = [50, 100, 200, 500, 1000]
+list_count_tweets_x_user_to_download = [50, 100, 200]
+
+
+# list_count_tweets_x_user_to_download = [50]
 
 #--------------------------------------PREPROSSESING - POS---------------------------------------
 ###########################################################################################
@@ -107,8 +111,8 @@ def politic_pos_svm_spacy_token(count_tweets):
 def politic_pos_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.POSTAGGING,
@@ -269,8 +273,8 @@ def artist_pos_svm_spacy_token(count_tweets):
 def artist_pos_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.POSTAGGING,
@@ -431,8 +435,8 @@ def athlete_pos_svm_spacy_token(count_tweets):
 def athlete_pos_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
             Preprocessing.FIX_HASHTAG_TEXT, 
-            Preprocessing.LOWERCASE,
             Preprocessing.REMOVE_STOP_WORDS,
+            Preprocessing.LOWERCASE,
             Preprocessing.LEMMATIZE
         ], 
         EncodingMethod.POSTAGGING,
@@ -593,8 +597,8 @@ def youtuber_pos_svm_spacy_token(count_tweets):
 def youtuber_pos_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.POSTAGGING,
@@ -754,8 +758,8 @@ def all_pos_svm_spacy_token(count_tweets):
 def all_pos_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.POSTAGGING,
@@ -916,8 +920,8 @@ def politic_big_svm_spacy_token(count_tweets):
 def politic_big_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.BIGRAM,
@@ -1078,8 +1082,8 @@ def artist_big_svm_spacy_token(count_tweets):
 def artist_big_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.BIGRAM,
@@ -1240,8 +1244,8 @@ def athlete_big_svm_spacy_token(count_tweets):
 def athlete_big_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.BIGRAM,
@@ -1402,8 +1406,8 @@ def youtuber_big_svm_spacy_token(count_tweets):
 def youtuber_big_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.BIGRAM,
@@ -1563,8 +1567,8 @@ def all_big_svm_spacy_token(count_tweets):
 def all_big_svm_token_stopword_lowercase_lemma(count_tweets):
     config = Configuration([
         Preprocessing.FIX_HASHTAG_TEXT, 
-        Preprocessing.LOWERCASE,
         Preprocessing.REMOVE_STOP_WORDS,
+        Preprocessing.LOWERCASE,
         Preprocessing.LEMMATIZE
     ], 
     EncodingMethod.BIGRAM,
@@ -2753,54 +2757,12 @@ def save_(list_count_tweets_x_user_to_download):
                            'library', 'accuracy', 'recall', 'f1'])
 
     cont = 0
-    list_method = [politic_pos_svm_spacy_within_prep, politic_pos_svm_spacy_token,
-    politic_pos_svm_token_stopword_lowercase_lemma, politic_pos_svm_rm_alphanumeric,
-    politic_pos_svm_emoji_link_num_punct, artist_pos_svm_spacy_within_prep,
-    artist_pos_svm_spacy_token, artist_pos_svm_token_stopword_lowercase_lemma,
-    artist_pos_svm_rm_alphanumeric, artist_pos_svm_emoji_link_num_punct, 
-    athlete_pos_svm_spacy_within_prep, athlete_pos_svm_spacy_token, 
-    athlete_pos_svm_token_stopword_lowercase_lemma,
-    athlete_pos_svm_rm_alphanumeric, athlete_pos_svm_emoji_link_num_punct, 
-    youtuber_pos_svm_spacy_within_prep, youtuber_pos_svm_spacy_token,
-    youtuber_pos_svm_token_stopword_lowercase_lemma, youtuber_pos_svm_rm_alphanumeric,
-    youtuber_pos_svm_emoji_link_num_punct, all_pos_svm_spacy_within_prep,
-    all_pos_svm_spacy_token, all_pos_svm_token_stopword_lowercase_lemma,
-    all_pos_svm_rm_alphanumeric, all_pos_svm_emoji_link_num_punct, politic_big_svm_spacy_within_prep,
-    politic_big_svm_spacy_token, politic_big_svm_token_stopword_lowercase_lemma,
-    politic_big_svm_rm_alphanumeric, politic_big_svm_emoji_link_num_punct,
-    artist_big_svm_spacy_within_prep, artist_big_svm_spacy_token,
-    artist_big_svm_token_stopword_lowercase_lemma, artist_big_svm_rm_alphanumeric,
-    artist_big_svm_emoji_link_num_punct, athlete_big_svm_spacy_within_prep,
-    athlete_big_svm_spacy_token, athlete_big_svm_token_stopword_lowercase_lemma,
-    athlete_big_svm_rm_alphanumeric, athlete_big_svm_emoji_link_num_punct,
-    youtuber_big_svm_spacy_within_prep, youtuber_big_svm_spacy_token,
-    youtuber_big_svm_token_stopword_lowercase_lemma, youtuber_big_svm_rm_alphanumeric,
-    youtuber_big_svm_emoji_link_num_punct, all_big_svm_spacy_within_prep,
-    all_big_svm_spacy_token, all_big_svm_token_stopword_lowercase_lemma,
-    all_big_svm_rm_alphanumeric, all_big_svm_emoji_link_num_punct,
-    politic_pos_svm_stanza_within_prep, artist_pos_svm_stanza_within_prep,
-    athlete_pos_svm_stanza_within_prep, youtuber_pos_svm_stanza_within_prep,
-    all_pos_svm_stanza_within_prep, politic_pos_svm_stanza_token, 
-    artist_pos_svm_stanza_token, athlete_pos_svm_stanza_token, 
-    youtuber_pos_svm_stanza_token, all_pos_svm_stanza_token,
-    politic_pos_bayes_spacy_token, artist_pos_bayes_spacy_token,
-    politic_pos_bayes_spacy_within_prep, artist_pos_bayes_spacy_within_prep,
-    athlete_pos_bayes_spacy_within_prep, youtuber_pos_bayes_spacy_within_prep,
-    all_pos_bayes_spacy_within_prep, athlete_pos_bayes_spacy_token, 
-    youtuber_pos_bayes_spacy_token, all_pos_bayes_spacy_token,
+    list_method = [
     politic_big_bayes_spacy_within_prep, artist_big_bayes_spacy_within_prep,
     athlete_big_bayes_spacy_within_prep, youtuber_big_bayes_spacy_within_prep,
     all_big_bayes_spacy_within_prep, politic_big_bayes_spacy_token, 
     artist_big_bayes_spacy_token, athlete_big_bayes_spacy_token,
-    youtuber_big_bayes_spacy_token, all_big_bayes_spacy_token, 
-    politic_pos_rl_spacy_within_prep, artist_pos_rl_spacy_within_prep,
-    athlete_pos_rl_spacy_within_prep, youtuber_pos_rl_spacy_within_prep,
-    all_pos_rl_spacy_within_prep, politic_pos_rl_spacy_token, 
-    artist_pos_rl_spacy_token, athlete_pos_rl_spacy_token, youtuber_pos_rl_spacy_token,
-    all_pos_rl_spacy_token, politic_big_rl_spacy_within_prep, artist_big_rl_spacy_within_prep,
-    athlete_big_rl_spacy_within_prep, youtuber_big_rl_spacy_within_prep, all_big_rl_spacy_within_prep,
-    politic_big_rl_spacy_token, artist_big_rl_spacy_token, athlete_big_rl_spacy_token, 
-    youtuber_big_rl_spacy_token, all_big_rl_spacy_token
+    youtuber_big_bayes_spacy_token, all_big_bayes_spacy_token
     # politic_bert_within_prep, politic_bert_spacy_token, politic_bert_token_stopword_lowercase_lemma,
     # politic_bert_rm_alphanumeric, politic_bert_emoji_link_num_punct, artist_bert_within_prep,
     # artist_bert_spacy_token, artist_bert_token_stopword_lowercase_lemma, artist_bert_rm_alphanumeric,
@@ -2817,10 +2779,10 @@ def save_(list_count_tweets_x_user_to_download):
         for idx, method in enumerate(list_method):
 
             #Para reanudar en la siguiente posicion del metodo que se registró en los logs
-            # if index != 4:
+            # if index != 3:
             #     break
-            if idx !=2 and idx != 7 and idx != 12 and idx != 17 and idx != 22 and idx != 27 and idx != 32 and idx != 37 and idx != 42 and idx != 47:
-              continue
+            # if idx < 45:
+            #   continue
 
             values = method(count_tweets)
             tuple_data = values[0]
@@ -2840,7 +2802,6 @@ def save_(list_count_tweets_x_user_to_download):
             elif list_preprocessesing[0] == Preprocessing.FIX_HASHTAG_TEXT and len(list_preprocessesing) == 1:
                 prep = 'TOKENIZE'
             elif list_preprocessesing[0] == Preprocessing.FIX_HASHTAG_TEXT and list_preprocessesing[1]:
-            # elif list_preprocessesing[0] == Preprocessing.LOWERCASE and list_preprocessesing[1]:
                 prep = 'SYNTAX'
             elif list_preprocessesing[0] == Preprocessing.EMOTICONS:
                 prep = 'ARTIFACT'
@@ -2868,7 +2829,7 @@ def save_(list_count_tweets_x_user_to_download):
                             datefmt='%d/%m/%y %H:%M:%S',
                             level=logging.INFO
                             )
-            logging.info(f'[Posicion_list_count_tweet_x_user: {index} count_tweet_x_user: {count_tweets}], [Posicion_method: {idx} Nombre del Método: {method.__name__}], [INDEX_DATAFRAME: {cont}], Accuracy: {accuracy}')
+            logging.info(f'[Posicion_list_count_tweet_x_user: {index} count_tweet_x_user: {count_tweets}], [Posicion_method: {idx} Nombre del Método: {method.__name__}], [INDEX_DATAFRAME: {cont}]')
 
             cont += 1
 

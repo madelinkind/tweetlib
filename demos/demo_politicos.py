@@ -19,16 +19,16 @@ from joblib import dump, load
 
 config = Configuration([
         # Preprocessing.TOKENIZE,
-        Preprocessing.FIX_HASHTAG_TEXT, 
+        # Preprocessing.FIX_HASHTAG_TEXT, 
         # Preprocessing.REMOVE_ALPHA_NUMERIC,
         # Preprocessing.NUM,
         # Preprocessing.PUNCT,
         # Preprocessing.EMAILS,
         # Preprocessing.LINKS,
+        # Preprocessing.REMOVE_STOP_WORDS,
         # Preprocessing.LOWERCASE,
         # Preprocessing.LEMMATIZE,
         # Preprocessing.EMOTICONS, 
-        # Preprocessing.REMOVE_STOP_WORDS,
         # Preprocessing.MENTIONS,
         # Preprocessing.HASHTAG
     ], 
@@ -65,7 +65,7 @@ type_task = TypeTask.VALIDATE_MODEL
 # type_task = TypeTask.MODEL_STORAGE_BERT
 #------------------------------------------------------
 
-data_set_politicos = DataSetPoliticos(10)
+data_set_politicos = DataSetPoliticos(1000)
 
 classifier = Classification()
 

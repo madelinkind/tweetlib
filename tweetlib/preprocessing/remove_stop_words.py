@@ -7,6 +7,8 @@ from spacy.lang.es.stop_words import STOP_WORDS
 
 def rm_stop_words(text: list):
     list_text = []
+    if type(text) == str:
+        text = text.split(" ")
     #Para filtrar stopwords
     list_text = [str(word) for word in text if not word in STOP_WORDS]
     # for word in text:

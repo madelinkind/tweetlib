@@ -15,7 +15,8 @@ class Utils(object):
             return Utils.ngram_dict[n]
         else:
          
-            list_alpha_numeric = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú1234567890@#? !;,.:_()|😥🥺😓😪😞😒😂🤣😅😊😆😁😄🙂😉😌😍🥰😘😗😚😋😛😝😜🤪🤓🤗📹😳❤️👏💪'
+            # list_alpha_numeric = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú1234567890@#? !;,.:_()|😥🥺😓😪😞😒😂🤣😅😊😆😁😄🙂😉😌😍🥰😘😗😚😋😛😝😜🤪🤓🤗📹😳❤️👏💪'
+            list_alpha_numeric = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú1234567890@#?!;,.:_()|'
 
             result_dict = ["".join(p) for p in itertools.product(list_alpha_numeric, repeat=n)]
 

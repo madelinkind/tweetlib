@@ -11,14 +11,10 @@ import functools
 from tweetlib.definitions import TaggingMethod, DictionarySize, Lang
 from tweetlib.init_nlp import init_nlp
 from tweetlib.singleton import Utils
-# from tweetlib.test_data import SpanishTextSamples
-from tweetlib.preprocessing.emails import count_email, rm_emails
 from tweetlib.preprocessing.emoticons import count_emoticons, rm_emoticons
 from tweetlib.preprocessing.hashtags import rm_hashtags, count_hashtags
 from tweetlib.preprocessing.links import count_links, rm_links
 from tweetlib.preprocessing.mentions import count_mentions, rm_mentions
-from tweetlib.preprocessing.num import count_nums, rm_num
-from tweetlib.preprocessing.punct import count_puncts, rm_punct
 
 # SPACY OR STANZA
 #method: TaggingMethod
@@ -59,8 +55,6 @@ def freq_dict(data_texts: list, tagging_method, nlp):
     vectors = []
     if tagging_method == 'SPACY':
         for idx, text in enumerate(data_texts):
-            # if idx == 954:
-            #     print(text)
             vector_new_tags = prep_text_new_tags(text)
             doc = nlp(" ".join(vector_new_tags[0]))
 
@@ -90,11 +84,8 @@ def freq_dict(data_texts: list, tagging_method, nlp):
     return vectors
 
 #Preprocesar texto para obtener la frecuencia de las nuevas etiquetas en dicho texto. 
-# New tags (EMAIL, LINK, EMTC, MENT, HASH) 
+# New tags (LINK, EMTC, MENT, HASH) 
 def prep_text_new_tags(text):
-    # email = count_email(text)
-    # if email > 0:
-    #     text = rm_emails(text)
     link = count_links(text)
     if link > 0:
         text = rm_links(text)

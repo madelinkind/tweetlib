@@ -9,7 +9,8 @@ def lowercase(text: list):
         [type]: [description]
     """
     lowercase_text = []
-    
+    if type(text) == str:
+        text = text.split(" ")
     lowercase_text = [str(word.lower().strip()) for word in text]
     # for word in text:
     #     lowercase_text.append(word.lower().strip())

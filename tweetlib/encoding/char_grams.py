@@ -8,7 +8,7 @@ from tweetlib.singleton import Utils
 
 def char_grams(data_texts,n):
     vectors = []
-    for text in data_texts:
+    for idx, text in enumerate(data_texts):
         #Uno la lista de string sin espacios
         text_union = "".join(text)
         #Separo en ngram
@@ -30,6 +30,11 @@ def freq_dict(dict_alpha_num):
     list_values = dict_alpha_num.values()
     vector = list(list_values)
     total_tokens = sum(vector)
+
+    if total_tokens == 0:
+        print('El total de token es 0')
+    # assert total_tokens == 0
+
     np_array = np.array(vector)
     vector_freq = np_array / total_tokens
     return vector_freq

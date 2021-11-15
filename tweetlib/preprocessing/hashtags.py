@@ -59,9 +59,7 @@ def tool_hashtags(text: list):
             with_hash.append(token.text)
         else:
             with_hash.append(token.text)
-    # print(within_hash, with_hash, len(hashtags))
     vector = within_hash, with_hash, len(hashtags)
-    # print(vector[1])
 
     return vector
 

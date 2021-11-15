@@ -99,7 +99,7 @@ class TwitterPipeline(object):
                 return
 
         for indx, preprocessing in enumerate(preprocessing_list):
-            print("Comenzando preprocesamiento...")
+            print(f"Comenzando preprocesamiento '{preprocessing.name}'...")
             prep_method = dict_preprocessing[preprocessing]
             if preprocessing.name != 'LOWERCASE' and preprocessing.name != 'REMOVE_STOP_WORDS' and preprocessing.name != 'MENTIONS':
                 for idx, text_prep in enumerate(data_texts):
@@ -110,7 +110,7 @@ class TwitterPipeline(object):
                     prep = prep_method(text)
                     data_texts[idx] = prep
             if len(preprocessing_list)-1 == indx: 
-                print("Preprocesamiento listo.")
+                print("Preprocesamiento completado.")
 
         #Verificar que luego del procesamiento no queden listas vacías
         for idx, sent in enumerate(data_texts):
@@ -118,14 +118,17 @@ class TwitterPipeline(object):
                 data_sents.append(sent)
                 if y != None:
                     y_label.append(y[idx])
+                else:
+                    y_label = None
             else:
                 continue
 
-        print("Comenzando codificación...")
         encoding_method = dict_encoding[encoding]
+        print(f"Comenzando la extracción de características '{encoding.name}'...")
         #Para obtener los datos para bert preprocesados
-        # if encoding.name == 'BERT': 
-        #     return data_texts, y
+        # if encoding.name == 'BERT':
+        #     dictionary_X_y = {'X': data_sents, 'y': y} 
+        #     dump(dictionary_X_y, f'BERT_DATA_SET/1000/politic_bert_token_stopword_lowercase_lemma')
 
         if  encoding.name != 'BERT':
             if encoding.name == 'BIGRAM' or encoding.name == 'TRIGRAM' or encoding.name == 'CUATRIGRAM':
@@ -142,7 +145,7 @@ class TwitterPipeline(object):
 
         else:
             vector_encoding_bert = encoding_method(data_sents, y_label)
-        print("Encoding listo.")
+        print("Extracción completada.")
 
         if self.task.name == 'VALIDATE_MODEL':
             accuracy, recall, f1, total_class, total_tweets = type_task(X, y_label, classifier_type)

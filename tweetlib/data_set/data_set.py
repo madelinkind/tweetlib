@@ -72,8 +72,10 @@ class DataSet():
             #borrar luego, es para limitar la cantidad de usuarios de cada dateset
             cont_users += 1
             cont_id += 1
+            
+            # if user == 'PabloIglesias' or user == 'onacarbonell' or user == 'onacarbonell' or user == 'RomualdFons' or user == 'antoniobanderas':
 
-            # if cont_users != 6:
+            # if user != 'PabloIglesias' and user != 'onacarbonell' and user != 'onacarbonell' and user != 'RomualdFons' and user != 'antoniobanderas':
             length = 0
             user_name = TwitterUser.objects.get(screen_name=user)
             last_tweets = Tweet.objects.filter(twitter_user=user_name.id).all()
@@ -86,15 +88,17 @@ class DataSet():
                         y.append(cont_id - 1)
                     else:
                         break
+            # else:
+                # continue
         # print(len(data))
         # print(len(y))
         # print(y)
         # print(cont_users)
         # print(y)
 
-        # dump(data, 'models/X_test')
-        # dump(y, 'models/y_test')
-        print('Descarga lista.')
+        # dump(data, 'models/X_test_bert_all_pred_4')
+        # dump(y, 'models/y_test_bert_all_pred_36')
+        print(f'Dataset {user_type}, descargado correctamente.')
         return data, y
 
     def get_data(self):

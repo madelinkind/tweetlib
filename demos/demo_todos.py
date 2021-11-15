@@ -36,11 +36,12 @@ config = Configuration([
 )
 type_task = TypeTask.VALIDATE_MODEL
 
-data_set_todos = DataSetTodos()
+data_set_todos = DataSetTodos(1000)
 
 classifier = Classification()
 
-pipeline = TwitterPipeline(config, data_set_todos, classifier, type_task)
+# pipeline = TwitterPipeline(config, data_set_todos, classifier, type_task)
+pipeline = TwitterPipeline(config, classifier, type_task, dataset = data_set_todos)
 
 if __name__ == "__main__":
     pipeline.run()

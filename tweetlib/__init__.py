@@ -4,4 +4,4 @@
 
 from .definitions import *
 from .init_nlp import init_nlp
-from .test_data import *
+# from .test_data import *

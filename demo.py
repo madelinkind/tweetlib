@@ -8,6 +8,7 @@ from crawler.engine import TwitterEngine
 from crawler.storage import DBStorage
 # from datetime import datetime, date, time, timedelta
 from datetime import datetime
+import shutil
 
 # ----------------------------------------------------------
 
@@ -135,11 +136,19 @@ def validate_model(list_prep: list, encoding: EncodingMethod, classifier_type: C
         nlp_library (TaggingMethod): [description]
         type_dataset (TypeDataSet): [description]
     """
-    config = configur(list_prep, encoding, classifier_type, nlp_library, type_dataset)
+    config = configur(list_prep, encoding, classifier_type, type_dataset, nlp_library)
+    #Si existe algún error en la entrada de los datos config = 1
+    if config == 'error':
+        return
     data_set = type_data_set(type_dataset, n_tweets_x_user)
-    type_task = TypeTask.VALIDATE_MODEL
-    run_pipeline(config, data_set, classifier, type_task)
-    print("El modelo ha sido validado correctamente")
+    if data_set == 'error':
+        return
+    if encoding == 'BERT':
+        type_task = TypeTask.VALIDATE_MODEL_BERT
+    else:
+        type_task = TypeTask.VALIDATE_MODEL
+    run_pipeline(config, classifier_type, type_task, data_set)
+    print("El modelo ha sido validado correctamente.")
 
 #Classification.
 #guardar modelos
@@ -178,13 +187,20 @@ def create_model(id_model, list_prep: list, encoding: EncodingMethod, classifier
     #     return print(f"El modelo {id_model} ya existe, por lo que no puede ser creado. Si desea actualizar el modelo debe correr el siguiente comando: update-model")
     # except:
     else:
-        type_task = TypeTask.MODEL_STORAGE
+        if encoding == 'BERT':
+            type_task = TypeTask.MODEL_STORAGE_BERT
+        else:
+            type_task = TypeTask.MODEL_STORAGE
 
         data_set = type_data_set(type_dataset, n_tweets_x_user)
-
-        config = configur(list_prep, encoding, classifier_type, nlp_library, type_dataset)
-        run_pipeline(config, data_set, classifier, type_task, id_model = id_model)
-        print("Modelo creado satisfactoriamente")
+        if data_set == 'error':
+            return
+        config = configur(list_prep, encoding, classifier_type, type_dataset, nlp_library)
+        #Si algún parámetro es incorrecto config = 'error'
+        if config == 'error':
+            return
+        run_pipeline(config, classifier_type, type_task, data_set, id_model = id_model)
+        print(f"El modelo {id_model}, ha sido creado y almacenado satisfactoriamente.")
 
 #Update model
 def update_model(id_model, list_prep: list, encoding: EncodingMethod, classifier_type: ClassificationMethod, nlp_library: TaggingMethod, type_dataset: TypeDataSet, n_tweets_x_user: int):
@@ -199,22 +215,26 @@ def update_model(id_model, list_prep: list, encoding: EncodingMethod, classifier
         type_dataset (TypeDataSet): [description]
     """
     dir_model = f"models/{id_model}"
-    if os.path.exists(dir_model):
-        load(dir_model)
-    else:
+    if not os.path.exists(dir_model):
         print(f"El modelo {id_model} no existe, por lo que no puede ser actualizado. Si desea crear el modelo debe correr el siguiente comando: create-model")
         return
     # try:
     #     load(dir_model)
-
-    type_task = TypeTask.MODEL_STORAGE
+    if encoding == 'BERT':
+        type_task = TypeTask.MODEL_STORAGE_BERT
+        shutil.rmtree(dir_model)
+    else:
+        type_task = TypeTask.MODEL_STORAGE
 
     data_set = type_data_set(type_dataset, n_tweets_x_user)
+    if data_set == 'error':
+        return
+    config = configur(list_prep, encoding, classifier_type, type_dataset, nlp_library)
+    if config == 'error':
+        return
+    run_pipeline(config, classifier_type, type_task, data_set, id_model = id_model)
 
-    config = configur(list_prep, encoding, classifier_type, nlp_library, type_dataset)
-    run_pipeline(config, data_set, classifier, type_task, id_model = id_model)
-
-    print("Modelo actualizado satisfactoriamente")
+    print(f"El modelo {id_model} ha sido actualizado satisfactoriamente.")
 
     # except:
     #     print(f"El modelo {id_model} no existe, por lo que no puede ser actualizado. Si desea crear el modelo debe correr el siguiente comando: create-model")
@@ -235,31 +255,35 @@ def find_author(id_model, file, n_value: int = None):
     if os.path.exists(file):
         with open(file, 'r') as f:
             text = f.readlines()
-            print(text)
-            for tweet in text:
-                print(tweet)
+            # print(text)
+            # for tweet in text:
+            #     print(tweet)
     else:
         print(f"El fichero con dirección {file} no existe.")
         return
 
     dir_model = f'models/{id_model}'
     if os.path.exists(dir_model):
-        dict_model_config = load(dir_model)
+        if os.path.isfile(dir_model):
+            dict_model_config = load(dir_model)
+            config = dict_model_config['config']
+            model = dict_model_config['model']
+            type_task = TypeTask.PREDICTION
+            run_pipeline(config, classifier, type_task, text = text, n_value = n_value, model = model)
+        else:
+            config = load(f'{dir_model}/config_prep')
+            type_task = TypeTask.PREDICTION_BERT
+            model = dir_model
+            len_labels = load(f'{dir_model}/len_labels')
+            run_pipeline(config, classifier, type_task, text = text, n_value = n_value, model = model, len_labels = len_labels)
     else:
         print(f"El modelo {id_model} no existe, debe entrar un modelo válido")
         models_exist = os.listdir('models')
         print(f"Los modelos que existen actualmente son los siguientes: {models_exist}")
         return
-
-    type_task = TypeTask.PREDICTION
-
-    config = dict_model_config['config']
     # type_dataset = config.type_dataset
     # data_set = type_data_set(type_dataset)
-
-    model = dict_model_config['model']
-    run_pipeline(config, classifier, type_task, text = text, n_value = n_value, model = model)
-    print("La predicción se ha realizado correctamente")
+    print("La predicción se ha realizado correctamente.")
 
 def type_data_set(type_dataset, n_tweets_x_user):
     """[summary]
@@ -270,6 +294,7 @@ def type_data_set(type_dataset, n_tweets_x_user):
     Returns:
         [type]: [description]
     """
+    error = 'error'
     if TypeDataSet.politico == type_dataset:
         data_set = DataSetPoliticos(n_tweets_x_user)
     elif TypeDataSet.artista == type_dataset:
@@ -282,7 +307,7 @@ def type_data_set(type_dataset, n_tweets_x_user):
         data_set = DataSetTodos(n_tweets_x_user)
     else:
         print("Debe entrar un valor válido de DataSet. Chequee cómo debe escribir el dataset que desea. Ej: nombre-comando --help")
-        return 
+        return error
     return data_set
 
 def configur(list_prep: list, encoding: EncodingMethod, classifier_type: ClassificationMethod, type_dataset: TypeDataSet, nlp_library: TaggingMethod = None):
@@ -298,35 +323,36 @@ def configur(list_prep: list, encoding: EncodingMethod, classifier_type: Classif
     Returns:
         [type]: [description]
     """
+    error = 'error'
     prep = []
-    for p in list_prep:
-        if p in dict_commands.dict_prep:
-            prep.append(dict_commands.dict_prep.get(p))
-        else:
-            print(f"El preprocesamiento {p} es incorrecto. Chequee cómo debe escribir los diferentes preprocesamientos que desea aplicar, con el siguiente comando: nombre-comando --help")
-            return
+    if len(list_prep) != 0:
+        for p in list_prep:
+            if p in dict_commands.dict_prep:
+                prep.append(dict_commands.dict_prep.get(p))
+            else:
+                print(f"El preprocesamiento {p} es incorrecto. Chequee cómo debe escribir los diferentes preprocesamientos que desea aplicar, con el siguiente comando: nombre-comando --help")
+                return error
     if encoding in dict_commands.dict_encoding:
         encoding = dict_commands.dict_encoding.get(encoding)
     else:
         print(f"El encoding {encoding} es incorrecto. Chequee cómo debe escribir el encoding que desea aplicar, con el siguiente comando: nombre-comando --help")
-        return 
+        return error
 
     if classifier_type in dict_commands.dict_classifier:
         classifier_type = dict_commands.dict_classifier.get(classifier_type)
     else:
         print(f"El clasificador {classifier_type} es incorrecto. Chequee cómo debe escribir el clasificador que desea aplicar, con el siguiente comando: nombre-comando --help")
-        return 
-
+        return error
     if nlp_library in dict_commands.dict_tagging:
-        nlp_library = dict_commands.dict_tagging.get(nlp_library)
-    else:
+            nlp_library = dict_commands.dict_tagging.get(nlp_library)
+    elif nlp_library != None and classifier_type.name != 'BERT':
         print(f"La librería de nlp {nlp_library} es incorrecta. Chequee cómo debe escribir la librería que desea utilizar, con el siguiente comando: nombre-comando --help")
-        return 
+        return error
     config = Configuration(prep, encoding, classifier_type, nlp_library, type_dataset)
 
     return config
 
-def run_pipeline(config: Configuration, classifier: Classification, task: TypeTask, dataset: DataSet = None, text: list = None, id_model: str = None, n_value: int = None, model = None):
+def run_pipeline(config: Configuration, classifier: Classification, task: TypeTask, dataset: DataSet = None, text: list = None, id_model: str = None, n_value: int = None, model = None, len_labels: int = None):
     """[summary]
 
     Args:
@@ -343,144 +369,7 @@ def run_pipeline(config: Configuration, classifier: Classification, task: TypeTa
         [type]: [description]
     """
     if dataset is None:
-        pipeline = TwitterPipeline(config, classifier, task, text = text, n_value = n_value, id_model = id_model, model = model)
+        pipeline = TwitterPipeline(config, classifier, task, text = text, n_value = n_value, id_model = id_model, model = model, len_labels = len_labels)
     else:
-        pipeline = TwitterPipeline(config, dataset, classifier, task, text = text, n_value = n_value, id_model = id_model, model = model)
+        pipeline = TwitterPipeline(config, classifier = classifier, dataset = dataset, task = task, text = text, n_value = n_value, id_model = id_model, model = model)
     return pipeline.run()
-
-#Para BERT. Al guardar el modelo, debemos asegurar que esa carpeta este vacia. Si existe limpiar la carpeta y dejarla vacia.
-        # if os.path.exists(output_dir):
-            # pass
-
-# if __name__ == '__main__':
-    # validate_model(list_prep, encoding, classifier_type, tagging, type_dataset)
-    # find_author(id_model, list_prep, encoding, classifier_type, tagging, type_dataset)
-    # find_author(id_model, file)
-    # from os import remove
-    # remove('/home/decodigo/Documentos/python/archivos/filename.txt')
-
-#Validate
-def validate_model_bert(list_prep: list, encoding: EncodingMethod, classifier_type: ClassificationMethod, type_dataset: TypeDataSet, n_tweets_x_user: int, nlp_library: TaggingMethod = None):
-    """[summary]
-
-    Args:
-        list_prep (list): [description]
-        encoding (EncodingMethod): [description]
-        classifier_type (ClassificationMethod): [description]
-        nlp_library (TaggingMethod): [description]
-        type_dataset (TypeDataSet): [description]
-    """
-    if nlp_library != None:
-        config = configur(list_prep, encoding, classifier_type, nlp_library, type_dataset)
-    else:
-        config = configur(list_prep, encoding, classifier_type, type_dataset = type_dataset)
-    data_set = type_data_set(type_dataset, n_tweets_x_user)
-    type_task = TypeTask.VALIDATE_MODEL_BERT
-    run_pipeline(config, data_set, classifier, type_task)
-    print("El modelo ha sido validado correctamente")
-
-#Create Model
-def create_model_bert(id_model, list_prep: list, encoding: EncodingMethod, classifier_type: ClassificationMethod, type_dataset: TypeDataSet, n_tweets_x_user: int, nlp_library: TaggingMethod = None):
-    """[summary]
-
-    Args:
-        id_model ([type]): [description]
-        list_prep (list): [description]
-        encoding (EncodingMethod): [description]
-        classifier_type (ClassificationMethod): [description]
-        nlp_library (TaggingMethod): [description]
-        type_dataset (TypeDataSet): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    dir_model = f"models/{id_model}"
-    if os.path.exists(dir_model):
-        print(f"El modelo {id_model} ya existe, por lo que no puede ser creado. Si desea actualizar el modelo debe correr el siguiente comando: update-model")
-        return
-    # try:
-    #     load(dir_model)
-    #     return print(f"El modelo {id_model} ya existe, por lo que no puede ser creado. Si desea actualizar el modelo debe correr el siguiente comando: update-model")
-    # except:
-    else:
-        type_task = TypeTask.MODEL_STORAGE
-
-        data_set = type_data_set(type_dataset, n_tweets_x_user)
-
-        if nlp_library != None:
-            config = configur(list_prep, encoding, classifier_type, nlp_library, type_dataset)
-        else:
-            config = configur(list_prep, encoding, classifier_type, type_dataset = type_dataset)
-        run_pipeline(config, data_set, classifier, type_task, id_model = id_model)
-        print("Modelo creado satisfactoriamente")
-
-#Update model
-def update_model_bert(id_model, list_prep: list, encoding: EncodingMethod, classifier_type: ClassificationMethod, type_dataset: TypeDataSet, n_tweets_x_user: int, nlp_library: TaggingMethod = None):
-    """[summary]
-
-    Args:
-        id_model ([type]): [description]
-        list_prep (list): [description]
-        encoding (EncodingMethod): [description]
-        classifier_type (ClassificationMethod): [description]
-        nlp_library (TaggingMethod): [description]
-        type_dataset (TypeDataSet): [description]
-    """
-    dir_model = f"models/{id_model}"
-    if os.path.exists(dir_model):
-        load(dir_model)
-    else:
-        print(f"El modelo {id_model} no existe, por lo que no puede ser actualizado. Si desea crear el modelo debe correr el siguiente comando: create-model")
-        return
-    # try:
-    #     load(dir_model)
-
-    type_task = TypeTask.MODEL_STORAGE
-
-    data_set = type_data_set(type_dataset, n_tweets_x_user)
-
-    if nlp_library != None:
-        config = configur(list_prep, encoding, classifier_type, nlp_library, type_dataset)
-    else:
-        config = configur(list_prep, encoding, classifier_type, type_dataset = type_dataset)
-
-    run_pipeline(config, data_set, classifier, type_task, id_model = id_model)
-
-    print("Modelo actualizado satisfactoriamente")
-
-def find_author_bert(id_model, file, n_value: int = None):
-    """[summary]
-
-    Args:
-        id_model ([type]): [description]
-        file ([type]): [description]
-        n_value (int, optional): [description]. Defaults to None.
-    """
-    if os.path.exists(file):
-        with open(file, 'r') as f:
-            text = f.readlines()
-            print(text)
-            for tweet in text:
-                print(tweet)
-    else:
-        print(f"El fichero con dirección {file} no existe.")
-        return
-
-    dir_model = f'models/{id_model}'
-    if os.path.exists(dir_model):
-        dict_model_config = load(dir_model)
-    else:
-        print(f"El modelo {id_model} no existe, debe entrar un modelo válido")
-        models_exist = os.listdir('models')
-        print(f"Los modelos que existen actualmente son los siguientes: {models_exist}")
-        return
-
-    type_task = TypeTask.PREDICTION
-
-    config = dict_model_config['config']
-    # type_dataset = config.type_dataset
-    # data_set = type_data_set(type_dataset)
-
-    model = dict_model_config['model']
-    run_pipeline(config, classifier, type_task, text = text, n_value = n_value, model = model)
-    print("La predicción se ha realizado correctamente")

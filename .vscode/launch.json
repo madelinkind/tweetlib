@@ -66,12 +66,13 @@
             "console": "integratedTerminal",
             "args": [
                 "validate-model",
-                "-p", "TOKENIZE",
+                // "-p", "",
                 "-p", "NUM",
-                "-e", "POS",
-                "-c", "SVM",
-                "-nlp", "SPACY",
-                "-ds", "politico"
+                "-e", "BERT",
+                "-c", "BERT",
+                // "-nlp", "SPACY",
+                "-ds", "politico",
+                "-ctu", "1"
             ],
         },
         {
@@ -82,13 +83,23 @@
             "console": "integratedTerminal",
             "args": [
                 "create-model",
-                "-id", "2",
-                "-p", "TOKENIZE",
-                "-p", "NUM",
+                "-id", "model_youtubers",
+                // "-p", "TOKENIZE",
+                // "-p", "NUM",
                 "-e", "POS",
-                "-c", "SVM",
+                "-c", "BAYES",
                 "-nlp", "SPACY",
-                "-ds", "politico"
+                "-ds", "politico",
+                "-ctu", "1000"
+                // "create-model",
+                // "-id", "bert_model_politicos",
+                // // "-p", "TOKENIZE",
+                // // "-p", "NUM",
+                // "-e", "BERT",
+                // "-c", "BERT",
+                // // "-nlp", "SPACY",
+                // "-ds", "politico",
+                // "-ctu", "1"
             ],
         },
         {
@@ -98,14 +109,21 @@
             "program": "${workspaceFolder}/commands.py",
             "console": "integratedTerminal",
             "args": [
+                // "update-model",
+                // "-id", "2",
+                // "-p", "TOKENIZE",
+                // "-p", "NUM",
+                // "-e", "POS",
+                // "-c", "SVM",
+                // "-nlp", "SPACY",
+                // "-ds", "politico",
+                // "-ctu", "50"
                 "update-model",
-                "-id", "2",
-                "-p", "TOKENIZE",
-                "-p", "NUM",
-                "-e", "POS",
-                "-c", "SVM",
-                "-nlp", "SPACY",
-                "-ds", "politico"
+                "-id", "bert_model_politicos",
+                "-e", "BERT",
+                "-c", "BERT",
+                "-ds", "youtuber",
+                "-ctu", "1"
             ],
         },
         {
@@ -116,9 +134,13 @@
             "console": "integratedTerminal",
             "args": [
                 "find-author",
-                "-id", "2",
-                "-f", "/home/madelinkind/b.txt",
-                "-v", "3"
+                "-id", "model_politicos",
+                "-f", "/home/madelinkind/tuits_dubitados.txt",
+                "-v", "2"
+                // "find-author",
+                // "-id", "bert_model_politicos",
+                // "-f", "/home/madelinkind/tuits_dubitados.txt",
+                // "-v", "1"
             ],
         }
     ]

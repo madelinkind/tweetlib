@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold
 from sklearn.svm import SVC
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, f1_score
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, f1_score, precision_score
 
 import torch
 import os
@@ -112,6 +112,7 @@ class Classification(object):
         print("Comenzando validación...")
         accuracy=[]
         recall = []
+        precision = []
         f1 = []
        #Separo los datos de "train" en entrenamiento y prueba para probar los algoritmos
         #dividimos en sets de entrenamiento y test
@@ -137,6 +138,10 @@ class Classification(object):
             #Accuracy
             acc_score = accuracy_score(y_test, pred_y)
             accuracy.append(acc_score)
+
+            #Precision
+            prc_score = precision_score(y_test, pred_y, average='micro')
+            precision.append(prc_score)
 
             #Recall
             rcll_score = recall_score(y_test, pred_y, average='micro')
@@ -179,14 +184,18 @@ class Classification(object):
         accuracy_mean = np.array(accuracy).mean()
         accuracy_mean = f"{accuracy_mean:.2f}"
 
+        precision_mean = np.array(precision).mean()
+        precision_mean = f"{precision_mean:.2f}"
+
         recall_mean = np.array(recall).mean()
         recall_mean = f"{recall_mean:.2f}"
 
         f1_mean = np.array(f1).mean()
         f1_mean = f"{f1_mean:.2f}"
 
-        print(f"Iter1_Accuracy: {accuracy[0]:.2f}, Iter2_Accuracy: {accuracy[1]:.2f}, Iter3_Accuracy: {accuracy[2]:.2f}, Iter4_Accuracy: {accuracy[3]:.2f}, Iter5_Accuracy: {accuracy[4]:.2f}")
+        print(f"5fold: Iter1_Accuracy: {accuracy[0]:.2f}, Iter2_Accuracy: {accuracy[1]:.2f}, Iter3_Accuracy: {accuracy[2]:.2f}, Iter4_Accuracy: {accuracy[3]:.2f}, Iter5_Accuracy: {accuracy[4]:.2f}")
         print(f"Accuracy Mean: {accuracy_mean}")
+        print(f"Precision Mean: {precision_mean}")
         print(f"Recall Mean: {recall_mean}")
         print(f"F1 Mean: {f1_mean}")
 
@@ -202,8 +211,8 @@ class Classification(object):
         model = Classification.run_model_bert(input_ids, attention_masks, labels, len_labels)
 
         # Saving best-practices: if you use defaults names for the model, you can reload it using from_pretrained()
-        os.mkdir(f'models/BERT/{id_model}')
-        output_dir = f'models/BERT/{id_model}'
+        os.mkdir(f'models/{id_model}')
+        output_dir = f'models/{id_model}'
         config_dir = f'{output_dir}/config_prep'
         len_label_dir = f'{output_dir}/len_labels'
 
@@ -228,7 +237,8 @@ class Classification(object):
 
         device = Classification.cpu_or_gpu_availability()
 
-        output_dir = f'/content/drive/MyDrive/Colab Notebooks/Models/{id_model}'
+        # output_dir = f'/content/drive/MyDrive/Colab Notebooks/Models/{id_model}'
+        output_dir = id_model
         # Load a trained model and vocabulary that you have fine-tuned
         model = BertForSequenceClassification.from_pretrained(output_dir)
         tokenizer = BertTokenizer.from_pretrained(output_dir)
@@ -702,8 +712,9 @@ class Classification(object):
         return predictions
 
     @staticmethod
-    def bert_predict(model, input_ids, attention_masks, n_value, len_labels):
+    def bert_predict(id_model, input_ids, attention_masks, n_value, len_labels):
         # pred, true_labels = bert_predict(model, X_test, tokenizer)
+        model, tokenizer = Classification.load_model(id_model)
         pred = Classification.take_predictions_bert(model, input_ids, attention_masks)
         dictionary_pred = {}
 

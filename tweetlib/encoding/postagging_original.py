@@ -5,7 +5,6 @@ import numpy as np
 
 from tweetlib.definitions import TaggingMethod, DictionarySize, Lang
 from tweetlib.init_nlp import init_nlp
-from tweetlib.test_data import SpanishTextSamples
 
 #INITIALIZE THE LIBRARY TO USE
 # nlp = init_nlp(TaggingMethod.STANZA, Lang.ES, size=DictionarySize.MEDIUM)

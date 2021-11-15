@@ -24,14 +24,6 @@ class TypeDataSet():
     youtuber = 'youtuber'
     all_results = 'todos'
 
-# TYPE OF DATASET
-# class DATASET(Enum):
-#     politico = 1
-#     artista = 2
-#     deportista = 3
-#     youtuber = 4
-#     all_results = 5
-
 # TYPE PREPROCESSING
 class Preprocessing(Enum):
     TOKENIZE = 1
