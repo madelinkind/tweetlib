@@ -1,13 +1,5 @@
 from tweetlib.definitions import EncodingMethod, ClassificationMethod, Preprocessing, TaggingMethod
 
-# dict_commands = {
-#     'create-model': TypeTask.MODEL_STORAGE,
-#     'update-model': TypeTask.MODEL_STORAGE,
-#     'find-author': TypeTask.PREDICTION,
-#     'validate-new-model': TypeTask.VALIDATE_MODEL,
-#     'validate-existing-model': TypeTask.VALIDATE_MODEL
-# }
-
 dict_classifier = {
     'SVM': ClassificationMethod.SVM,
     'LR': ClassificationMethod.LOGISTIC_REGRESSION,
